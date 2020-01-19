@@ -14,6 +14,6 @@ Your tasks are as follows:
 
 * Create a Vivado project comprising the VHDL files indicated above, make the necessary modifications in the original descriptions, and simulate to make sure that everything is correct.
 * Generate the *.bit file and program the FPGA.
-* Use HyperTerminal or PuTTY to set up the serial communication channel for 19.200 bps, 1 stop bit, no parity, and flow control =  “None” (make sure that you’re using the right virtual COM port).
+* Use HyperTerminal or PuTTY to set up the serial communication channel for 19200 bps, 1 stop bit, no parity, and flow control =  “None” (make sure that you’re using the right virtual COM port).
 
 You should now see the Basys-3 leds displaying the ASCII codes of any keys pressed in your keyboard (compare the binary patterns at the leds with the ASCII table at http://www.asciitable.com/
