@@ -7,7 +7,7 @@
 -- Target Devices: Basys 3
 -- Description: 
 ----------------------------------------------------------------------------------
--- listing 7.1, 7.2, 7.4 (top level)
+-- listing 7.1
 -- UART receiver
 
 library IEEE;
