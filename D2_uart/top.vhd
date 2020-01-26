@@ -46,8 +46,8 @@ begin
 --            empty=>rx_empty, full=>open, r_data=>r_data);
 ---------------------------------------------------------
     process(rx_done_tick) begin
-        if(rx_done_tick='1') then
+        if (rx_done_tick='1') then
             led <= rx_data_out;
-     end if;
+        end if;
     end process;  
 end Behavioral;
