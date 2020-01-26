@@ -1,11 +1,7 @@
 ----------------------------------------------------------------------------------
--- Design Name: 
 -- Module Name: interface - Behavioral
--- Project Name: 
 -- Target Devices: 
 -- Description: 
--- 
--- Dependencies: 
 ----------------------------------------------------------------------------------
 -- Interface circuit with a flag FF and buffer provides a mechanism to signal the
 -- availability of a new 'word' and prevents the 'word' from
@@ -17,7 +13,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use ieee.numeric_std.all;
 -------------------------------------------------------
-entity flag_ff is
+entity flag_buf is
     generic (W : integer := 8);
     port (
         clk, rst : in std_logic;
@@ -25,9 +21,9 @@ entity flag_ff is
         din : in std_logic_vector(W-1 downto 0);
         dout : out std_logic_vector(W-1 downto 0);
         flag : out std_logic );
-end flag_ff;
+end flag_buf;
 -------------------------------------------------------
-architecture arch of flag_ff is
+architecture arch of flag_buf is
     signal buf_reg, buf_next : std_logic_vector(W-1 downto 0);
     signal flag_reg, flag_next : std_logic;
 begin
