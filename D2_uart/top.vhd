@@ -1,16 +1,7 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Design Name: 
 -- Module Name: top - Behavioral
--- Project Name: 
 -- Target Devices: 
-
--- Description: 
-
 ----------------------------------------------------------------------------------
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use ieee.numeric_std.all;
@@ -29,17 +20,12 @@ entity top is
         clk, rst : in std_logic;
         rd_uart, wr_uart, rx : in std_logic;
         w_data : in std_logic_vector(7 downto 0);
-       -- tx_full, rx_empty, tx : out std_logic;
-        --r_data : out std_logic_vector(7 downto 0);
         led : out std_logic_vector(7 downto 0) );
 end top;
 ---------------------------------------------------------
 architecture Behavioral of top is
     signal tick, rx_done_tick : std_logic;
-    --signal tx_fifo_out : std_logic_vector(7 downto 0);
     signal rx_data_out : std_logic_vector(7 downto 0);
-   -- signal tx_empty, tx_fifo_not_empty : std_logic;
-    --signal tx_done_tick : std_logic;
 begin
 ---------------------------------------------------------
     baud_gen_unit: entity work.mod_m(arch)
