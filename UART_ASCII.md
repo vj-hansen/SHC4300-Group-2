@@ -177,13 +177,51 @@ begin
     end process;
    
     -- next-state logic
-    r_next<=(others=>'0') when r_reg=(M-1) else r_reg+1;
+    r_next<=(others=>'0') when r_reg=(M-1) else r_reg+1; --
     
     -- output logic
-    q<=std_logic_vector(r_reg);
-    max_tick<='1' when r_reg=(M-1) else '0';
+    q<=std_logic_vector(r_reg); --
+    max_tick<='1' when r_reg=(M-1) else '0'; --
 end arch;
 ```
 
-
+---
 #### Top module
+```vhdl
+---------------------------------------------------------
+entity top is
+    -- 19200 baud, 8 data bits, 1 stop bit, 2^2 FIFO
+    generic (   DBIT : integer := 8;
+                SB_TICK : integer := 16; -- 16 ticks for 1 stop bit
+                DVSR : integer := 326;  -- baud rate divisor (= 100M/(16*baud rate))
+                DVSR_BIT: integer := 9; -- bits of DVSR
+                FIFO_W: integer := 2 ); -- address bits of FIFO, words in FIFO = 2^FIFO_W
+    
+    port (  clk, rst: in std_logic;
+            rd_uart, wr_uart, rx: in std_logic;
+            w_data: in std_logic_vector(7 downto 0);
+            led: out std_logic_vector(7 downto 0) );
+end top;
+---------------------------------------------------------
+architecture Behavioral of top is
+    signal tick, rx_done_tick: std_logic;
+    signal rx_data_out: std_logic_vector(7 downto 0);
+begin
+---------------------------------------------------------
+    baud_gen_unit: entity work.mod_m(arch)
+        generic map ( M=>DVSR, N=>DVSR_BIT )
+        port map ( clk=>clk, rst=>rst, q=>open, max_tick=>tick ); -- 'open'-keyword = q is an unused signal
+---------------------------------------------------------
+    uart_rx_unit: entity work.uart_rx(arch)
+        generic map ( DBIT=>DBIT, SB_TICK=>SB_TICK )
+        port map (  clk=>clk, rst=>rst, rx=>rx, s_tick=>tick, 
+                    rx_done_tick=>rx_done_tick,
+                    dout=>rx_data_out );
+---------------------------------------------------------
+    process(rx_done_tick) begin
+        if (rx_done_tick='1') then
+            led <= rx_data_out;
+        end if;
+    end process;  
+end Behavioral;
+```
