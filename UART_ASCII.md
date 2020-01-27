@@ -30,29 +30,36 @@ The transmission with 8 data bits, no parity, and 1 stop bit is shown in the fig
 <img src="https://github.com/vjhansen/SHC4300-W03_D2_D4-group/blob/master/pics/bd.png" alt="drawing" width="550" height="225"/>
 
 
+Figure above.
+
+UART receiver: the circuit to obtain the data word via oversampling
+Baud rate generator: the circuit to generate the sampling ticks
+Interface circuit: the circuit that provides buffer and status between the UART receiver and the system that uses the UART
+
+
+
 #### UART RECEIVING SUBSYSTEM
 Since no clock information is conveyed from the transmitted signal, the receiver can retrieve the data bits only by using the predetermined parameters. We use an oversampling scheme to estimate the middle points of transmitted bits and then retrieve them at these points accordingly.
 ```vhdl
 -- listing 7.1
 -- UART receiver
--- ....
+-- ... libraries
 ------------------------------------------------------------
 entity uart_rx is
-    generic (
-        DBIT: integer := 8; -- data bits
-        SB_TICK: integer := 16 ); -- ticks for stop bits
+    generic (   DBIT: integer := 8; -- data bits
+                SB_TICK: integer := 16 ); -- ticks for stop bits
 
     Port (  clk, rst, rx, s_tick: in std_logic;
-            rx_done_tick : out std_logic;
-            dout : out std_logic_vector(7 downto 0) );
+            rx_done_tick: out std_logic;
+            dout: out std_logic_vector(7 downto 0) );
 end uart_rx;
 ------------------------------------------------------------
 architecture arch of uart_rx is
     type state_type is (idle, start, data, stop);
-    signal state_reg, state_next : state_type;      -- current and next state
-    signal s_reg, s_next : unsigned(3 downto 0);    -- keep track of sampling ticks and count to 7 in the 'start' state
-    signal n_reg, n_next : unsigned(2 downto 0);    -- keep track of data bits received in the 'data' state
-    signal b_reg, b_next : std_logic_vector(7 downto 0); -- deserializes rx
+    signal state_reg, state_next: state_type;      -- current and next state
+    signal s_reg, s_next: unsigned(3 downto 0);    -- keep track of sampling ticks and count to 7 in the 'start' state
+    signal n_reg, n_next: unsigned(2 downto 0);    -- keep track of data bits received in the 'data' state
+    signal b_reg, b_next: std_logic_vector(7 downto 0); -- deserializes rx
     -- retrieved bits are shifted into and reassembled in the 'b' register
 begin
 ------------------------------------------------------------
@@ -113,7 +120,7 @@ begin
                     end if;
                 end if;
 ------------------------------------------------------------
-            when stop =>
+            when stop => --
                 if (s_tick = '1') then
                     if s_reg=(SB_TICK-1) then
                         state_next <= idle;
@@ -129,24 +136,22 @@ end arch;
 ```
 
 
-
-
 ---
-#### Oversampling procedure
+#### Baud rate generator and oversampling procedure
 The most commonly used sampling rate is 16 times the baud rate, which means that each serial bit is sampled 16 times.
+The oversampling scheme basically performs the function of a clock signal. Instead of using the rising edge to indicate when the input signal is valid, it utilizes sampling ticks to estimate the middle point of each bit. While the receiver has no information about the exact onset time of the start bit, the estimation can be off by at most 1/16. 
+
+The baud rate generator generates a sampling signal whose frequency is exactly 16 times the UART’s designated baud rate. For the 19200 baud rate, the sampling rate has to be 307200 (19200 * 16) ticks/s. Since the system clock rate is 100 MHz, the baud rate generator needs a mod-326 (100 MHz / 307200) counter, in which the one-clock-cycle tick is asserted once every 326 clock cycles.
+
+
 
 ```vhdl
 -- Listing 4.11 Mod-m counter
 -- This baud-rate generator will generate sampling ticks
-
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use ieee.numeric_std.all;
-
+-- ... library
 entity mod_m is
-    generic (
-        N: integer := 8;    -- num of bits
-        M: integer := 10 ); -- mod-326 counter 
+    generic (   N: integer := 8;    -- num of bits
+                M: integer := 326 ); -- mod-326 counter 
 
 -- Frequency = 16x the required baud rate (16x oversampling)
 -- 19200 bps * 16 = 307200 ticks/s
@@ -164,18 +169,18 @@ begin
     -- register
     process(clk, rst) begin
         if (rst = '1') then
-            r_reg <= (others =>'0');
+            r_reg <= (others=>'0');
         elsif rising_edge(clk) then
             r_reg <= r_next;
         end if;
     end process;
    
     -- next-state logic
-    r_next <= (others => '0') when r_reg=(M-1) else r_reg+1;
+    r_next<=(others=>'0') when r_reg=(M-1) else r_reg+1;
     
     -- output logic
-    q <= std_logic_vector(r_reg);
-    max_tick <= '1' when r_reg=(M-1) else '0';
+    q<=std_logic_vector(r_reg);
+    max_tick<='1' when r_reg=(M-1) else '0';
 end arch;
 ```
 
