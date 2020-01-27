@@ -146,7 +146,6 @@ The oversampling scheme basically performs the function of a clock signal. Inste
 The baud rate generator generates a sampling signal whose frequency is exactly 16 times the UART’s designated baud rate. For the 19200 baud rate, the sampling rate has to be 307200 (19200 * 16) ticks/s. Since the system clock rate is 100 MHz, the baud rate generator needs a mod-326 (100 MHz / 307200) counter, in which the one-clock-cycle tick is asserted once every 326 clock cycles.
 
 
-
 ```vhdl
 -- Listing 4.11 Mod-m counter
 -- This baud-rate generator will generate sampling ticks
@@ -187,4 +186,4 @@ end arch;
 ```
 
 
-
+#### Top module
