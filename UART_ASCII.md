@@ -10,11 +10,16 @@
 ---
 
 *Universal asynchronous receiver and transmitter* (UART) is a circuit that sends parallel data through a serial line. 
-A UART includes a transmitter and a receiver. The transmitter is essentially a special shift register that loads data in parallel and then shifts it out bit by bit at a specific rate. The receiver, on the other hand, shifts in data bit by bit and then reassembles the data. The serial line is '1' when it is idle. The transmission starts with a start bit, which is '0', followed by data bits and an optional parity bit, and ends with stop bits, which are '1'. The number of data bits can be 6,7, or 8. The optional parity bit is used for error detection. For odd parity, it is set to ’0’ when the data bits have an odd number of 1’s. For even parity, it is set to ’0’ when the data bits have an even number of 1’s.
+A UART includes a transmitter (tx) and a receiver (rx). The transmitter is a special shift register that loads data in parallel and then shifts it out bit by bit at a specific rate. The receiver shifts in data bit by bit and then reassembles the data. 
+
+* The serial line is '1' when it is idle. 
+* The transmission starts with a start bit, which is '0', followed by data bits and an optional parity bit, and ends with stop bits, which are '1'. 
+* The number of data bits can be 6, 7, or 8. 
+* The optional parity bit is used for error detection. For odd parity, it is set to ’0’ when the data bits have an odd number of 1’s. For even parity, it is set to ’0’ when the data bits have an even number of 1’s.
 
 <img src="https://github.com/vjhansen/SHC4300-W03_D2_D4-group/blob/master/pics/uart.png" alt="drawing" width="450" height="125"/>
 
-The transmission with 8 data bits, no parity, and 1 stop bit is shown in the figure above. Note that the LSB of the data word is transmitted first. Before the transmission starts, the transmitter and receiver must agree on a set of parameters in advance, which include the baud rate (i.e., number of bits per second), the number of data bits and stop bits, and use of the parity bit.
+The transmission with 8 data bits, no parity, and 1 stop bit is shown in the figure above. The LSB of the data word is transmitted first. Before the transmission starts, the tx and rx must agree on a set of parameters in advance, which include the baud rate (e.g. 19200 bps), the number of data bits and stop bits, and use of the parity bit.
 
 <img src="https://github.com/vjhansen/SHC4300-W03_D2_D4-group/blob/master/pics/bd.png" alt="drawing" width="550" height="225"/>
 
@@ -25,7 +30,7 @@ The transmission with 8 data bits, no parity, and 1 stop bit is shown in the fig
 * Interface circuit: the circuit that provides buffer and status between the UART receiver and the system that uses the UART
 
 #### UART RX SUBSYSTEM
-Since no clock information is conveyed from the transmitted signal, the receiver can retrieve the data bits only by using the predetermined parameters. We use an oversampling scheme to estimate the middle points of transmitted bits and then retrieve them at these points accordingly.
+Since no clock information is conveyed from the transmitted signal, rx can retrieve the data bits only by using the predetermined parameters. We use an oversampling scheme to estimate the middle points of transmitted bits and then retrieve them at these points accordingly.
 ```vhdl
 -- UART receiver (listing 7.1)
 ------------------------------------------------------------
@@ -201,7 +206,7 @@ begin
 ---------------------------------------------------------
     process(rx_done_tick) begin
         if (rx_done_tick='1') then
-            led <= rx_data_out;
+            led <= rx_data_out; -- set LEDs when all data bits are received
         end if;
     end process;  
 end Behavioral;
