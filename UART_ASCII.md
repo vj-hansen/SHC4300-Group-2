@@ -211,3 +211,8 @@ begin
     end process;  
 end Behavioral;
 ```
+
+
+
+
+Source: FPGA Prototyping by VHDL Examples, Pong P. Chu
