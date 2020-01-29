@@ -15,7 +15,7 @@ W03 D4: Block diagram: Datapath of the ABC player FSMD.
 
 ### W03 D4: ABC Player
 
-[UART README](./ABC_player.md)
+[ABC README](./ABC_player.md)
 
 
 
