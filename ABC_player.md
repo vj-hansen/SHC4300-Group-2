@@ -7,4 +7,7 @@ Consider a sequence of ASCII codes representing musical notes that need to be st
 * After 0.5 sec. the frequency of the square wave changes to the value defined by the second memory position.
 * The process repeats itself up to the last code, and the output will revert to logic ‘0’ afterwards.
  
+ 
+ #### Proposed Block Diagram
+![mydiag](D4_ABC/diagram/D4_block_diagram.png)
 
