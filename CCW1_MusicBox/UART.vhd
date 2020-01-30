@@ -1,30 +1,24 @@
 ----------------------------------------------------------------------------------
--- Module Name: UART RX
+-- Module Name: UART rx + baud rate generator
 -- Target Devices: Basys 3
 ----------------------------------------------------------------------------------
--- listing 7.1
--- UART receiver
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.numeric_std.all;
 ------------------------------------------------------------
 entity uart_rx is
-    generic (
-        DBIT: integer := 8; -- data bits
-        SB_TICK: integer := 16 ); -- ticks for stop bits
+    generic (   DBIT: integer := 8; -- data bits
+                SB_TICK: integer := 16 ); -- ticks for stop bits
 
-    Port ( 
-        clk, rst, rx, s_tick: in std_logic;
-        rx_done_tick : out std_logic;
-        dout : out std_logic_vector(7 downto 0) );
+    Port (  clk, rst, rx, s_tick: in std_logic;
+            rx_done_tick : out std_logic;
+            dout : out std_logic_vector(7 downto 0) );
 end uart_rx;
 ------------------------------------------------------------
 architecture arch of uart_rx is
 
-
 -- add baud rate generator as component
-
 
     type state_type is (idle, start, data, stop);
     signal state_reg, state_next : state_type; -- current and next state
