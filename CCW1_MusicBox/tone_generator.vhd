@@ -13,6 +13,32 @@ architecture Behavioral of tone_gen is
     signal toggle : std_logic := '0';
     signal note : std_logic_vector(2 downto 0);
     
+-- Octave 5
+-- c = 523.251 Hz
+-- d = 587.330 Hz
+-- e = 659.255 Hz
+-- f = 698.456 Hz
+-- g = 783.991 Hz
+-- a = 880.000 Hz
+-- b = 987.767 Hz
+
+
+-- Octave 4
+-- C = 261.626 Hz
+-- D = 293.665 Hz
+-- E = 329.628 Hz
+-- F = 349.228 Hz
+-- G = 391.995 Hz
+-- A = 440.000 Hz
+-- B = 493.883 Hz
+
+-- The exact clock cycle for "C" is: (100*10^6 Hz)/(2*261.626 Hz) = 191 113. 
+-- This means that the counter must count from 0 to 191 113, then generate a ticking pulse to toggle the flip-flop, and resume counting from 0.
+
+
+
+----------------------------------------------------------------------------------
+
     constant n_Do  : std_logic_vector := "101110101010001001";  -- = 191113 
     constant n_Re  : std_logic_vector := "101001100100010110";  -- = 170262
     constant n_Mi  : std_logic_vector := "100101000010000110";  -- = 151686
