@@ -1,6 +1,5 @@
 -- Listing 11.4
 -- Dual-port RAM with synchronous read
--- Modified from XST 8.1i rams_11
 
 library ieee;
 use ieee.std_logic_1164.all;
