@@ -1,0 +1,3 @@
+-- Mod-M counter
+-- in: from_m_in, clk, reset
+-- out: to_t_in
