@@ -7,8 +7,8 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 --------------------------------------------------
 entity dual_port_ram_sync is
-   generic (  ADDR_WIDTH: integer:=6;
-              DATA_WIDTH:integer:=8 );
+   generic (  ADDR_WIDTH: integer :=6;
+              DATA_WIDTH: integer :=8 );
    
    port ( clk, we: in std_logic;
           addr_a: in std_logic_vector(ADDR_WIDTH-1 downto 0);
