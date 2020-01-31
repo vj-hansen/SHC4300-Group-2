@@ -1,35 +1,39 @@
-----------------------------------------------------------------------------------
--- Module Name: UART rx + baud rate generator
--- Target Devices: Basys 3
-----------------------------------------------------------------------------------
+-- UART receiver + baud rate generator component
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.numeric_std.all;
-------------------------------------------------------------
+use ieee.numeric_std.all;
+--------------------------------------------
 entity uart_rx is
-    generic (   DBIT: integer := 8; -- data bits
-                SB_TICK: integer := 16 ); -- ticks for stop bits
-
-    Port (  clk, rst, rx, s_tick: in std_logic;
-            rx_done_tick : out std_logic;
-            dout : out std_logic_vector(7 downto 0) );
+    generic ( DBIT      : integer := 8;
+              SB_TICK   : integer := 16;
+              DVSR      : integer := 326;
+              DVSR_BIT  : integer := 9 );
+           
+    Port (  rx      : in STD_LOGIC;
+            clk     : in STD_LOGIC;
+            reset   : in STD_LOGIC;
+            dout    : out std_logic_vector(7 downto 0); -- led
+            rx_done_tick : out STD_LOGIC );
 end uart_rx;
-------------------------------------------------------------
+--------------------------------------------
 architecture arch of uart_rx is
-
--- add baud rate generator as component
-
     type state_type is (idle, start, data, stop);
-    signal state_reg, state_next : state_type; -- current and next state
-    signal s_reg, s_next : unsigned(3 downto 0); -- keep track of sampling ticks and count to 7 in the 'start' state
-    signal n_reg, n_next : unsigned(2 downto 0); -- keep track of data bits received in the 'data' state
-    signal b_reg, b_next : std_logic_vector(7 downto 0); -- (deserializes rx) retrieved bits are shifted into and reassembled in the 'b' register
+    signal state_reg, state_next : state_type;
+    signal s_reg, s_next : unsigned(3 downto 0); -- sampling ticks 
+    signal n_reg, n_next : unsigned(2 downto 0); -- data bits received
+    signal b_reg, b_next : std_logic_vector(7 downto 0); 
+    signal s_tick : std_logic;
 begin
-------------------------------------------------------------
+--------------------------------------------
+    baud_gen_unit: entity work.baud_gen(arch)
+        generic map ( M=>DVSR, N=>DVSR_BIT )
+        port map ( clk=>clk, reset=>reset, 
+                   q=>open, max_tick=>s_tick );
+--------------------------------------------
 -- FSMD state and data registers
-    process(clk, rst) begin
-        if rst = '1' then
+    process(clk, reset) begin
+        if (reset = '1') then
             state_reg <= idle;
             s_reg <= (others => '0');
             n_reg <= (others => '0');
@@ -52,15 +56,14 @@ begin
         rx_done_tick <= '0';
         case state_reg is 
             when idle =>
-                if rx='0' then
+                if (rx = '0') then
                     state_next <= start;
                     s_next <= (others=>'0');
-                -- else stay idle
                 end if;
 ------------------------------------------------------------                
             when start =>
                 if (s_tick = '1') then
-                    if s_reg=7 then -- restart counter
+                    if (s_reg = 7) then -- restart counter
                         state_next <= data;
                         s_next <= (others=>'0');
                         n_next <= (others=>'0');
@@ -71,10 +74,10 @@ begin
 ------------------------------------------------------------                
             when data =>
                 if (s_tick = '1') then
-                    if s_reg=15 then -- read RxD, feed its value to deserializer, restart counter
+                    if (s_reg = 15) then -- read RxD, feed its value to deserializer, restart counter
                         s_next <= (others => '0');
                         b_next <= rx & b_reg(7 downto 1); -- b = rx & (b >> 1)
-                        if n_reg=(DBIT-1) then
+                        if (n_reg = (DBIT-1)) then
                             state_next <= stop;
                         else
                             n_next <= n_reg+1;
@@ -86,7 +89,7 @@ begin
 ------------------------------------------------------------
             when stop =>
                 if (s_tick = '1') then
-                    if s_reg=(SB_TICK-1) then
+                    if (s_reg = (SB_TICK-1)) then
                         state_next <= idle;
                         rx_done_tick <= '1';
                     else
@@ -95,5 +98,5 @@ begin
                 end if;
         end case;
     end process;
-    dout <= b_reg;
+    dout <= b_reg; -- data out -- rx data out
 end arch;
