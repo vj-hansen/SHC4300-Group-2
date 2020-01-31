@@ -13,7 +13,7 @@ entity uart_rx is
     Port (  rx      : in STD_LOGIC;
             clk     : in STD_LOGIC;
             reset   : in STD_LOGIC;
-            dout    : out std_logic_vector(7 downto 0); -- led
+            dout    : out std_logic_vector(7 downto 0);
             rx_done_tick : out STD_LOGIC );
 end uart_rx;
 --------------------------------------------
