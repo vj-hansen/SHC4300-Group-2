@@ -14,14 +14,11 @@ entity t_ff is
 end t_ff;
 
 architecture arch of t_ff is
-
     signal buzz: std_logic := '0'; 
-    
 ----------------------------------------------------------------------------------
 begin
     -- Register
-    process(clk, rst) 
-    begin
+    process(clk, rst) begin
         if (rst = '1') then
             buzz <= '0';
         elsif rising_edge(clk) then
@@ -32,8 +29,7 @@ begin
             end if;
         end if;
     end process;
-
+    
     -- Output
-    to_ldspkr <= buzz;
-
+    to_ldspkr <= buzz;     
 end arch;
