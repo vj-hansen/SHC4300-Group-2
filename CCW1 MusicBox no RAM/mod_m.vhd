@@ -38,7 +38,7 @@ begin
     end process;
 
     -- next-state logic
-    r_next <=   (others => '0') when r_reg=(M-1) else 
+    r_next <=   (others => '0') when r_reg=(M-1) else  -- shouldn't 'M' be replaced with "from_m_in"?
                 r_reg+1;
     
     -- output logic
