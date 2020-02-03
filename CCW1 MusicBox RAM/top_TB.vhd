@@ -67,6 +67,7 @@ begin
         rx <= '1'; -- stop bit = 1
         wait for bit_period;        
         
+     
 --    -- Test Tone C4
 --        rx <= '0'; -- start bit = 0
 --        wait for bit_period;
