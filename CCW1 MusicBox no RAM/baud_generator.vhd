@@ -12,7 +12,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity baud_generator is
     generic (
-        N: integer := 9; -- num of bits (was 8 bits)
+        N: integer := 9; -- number of bits needed to count to M.
         M: integer := 326 -- mod-326 counter 
         ); 
     port ( 
