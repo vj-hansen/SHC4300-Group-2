@@ -24,9 +24,6 @@ architecture arch of mod_m is
 
 ----------------------------------------------------------------------------------
 begin
--- Must toggle to_t_in when from_m_in is not 0 ()
--- Must reset r_reg and count to from_m_in, then toggle the output again 
-
     -- register
     process(clk, rst) begin
         if (rst = '1') then
