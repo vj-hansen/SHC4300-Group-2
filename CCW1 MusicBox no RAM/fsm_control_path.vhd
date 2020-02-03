@@ -1,9 +1,9 @@
 ----------------------------------------------------------------------------------
 -- FSM control path
+-- Group 2
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-
 
 entity fsm_control_path is
     port ( 
@@ -14,18 +14,16 @@ entity fsm_control_path is
         to_led: out std_logic_vector(7 downto 0)
         );
 end fsm_control_path;
-
+------------------------------------------------------------------------ 
 architecture arch of fsm_control_path is
     -- FSM declaration
     type state_type is (mute, play);
     signal state_next, state_reg: state_type;
-    signal valid_value: std_logic_vector(7 downto 0);
-    
+    signal valid_value: std_logic_vector(7 downto 0); -- Valid ASCII value
 ----------------------------------------------------------------------------------
 begin
     -- FSM state register
-    process(clk, rst)
-        begin
+    process(clk, rst) begin
         if (rst = '1') then
             state_reg <= mute;
         elsif rising_edge(clk) then
@@ -40,12 +38,12 @@ begin
         to_clr_FF <= '0';
         
         case state_reg is
-            ------------------------------------------------------------                
+        ------------------------------------------------------------                
             when mute =>
                 -- Initial setup
                 to_clr_FF <= '1';
                 -- Decisions
-                if (from_rx_done_tick = '1' ) then
+                if (from_rx_done_tick = '1' ) then       -- All data received from UART
                     if (from_dout = valid_value) then    -- Check if ASCII code is valid
                         state_next <= play;
                     else
@@ -56,7 +54,7 @@ begin
                 end if;
             ------------------------------------------------------------                
             when play =>
-                -- Initial setup            If ASCII is valid toggle mod-m counter
+                -- Initial setup: If ASCII is valid toggle mod-m counter
                 -- Decisions
                 if (from_rx_done_tick = '1' ) then
                     if (from_dout = valid_value) then    -- Check if ASCII code is valid
@@ -70,16 +68,14 @@ begin
             ------------------------------------------------------------                
         end case;
     end process;
-
-
+------------------------------------------------------------------------                
     -- Dispaly ASCII from UART on Basys3 LEDs
     process(from_rx_done_tick) begin
         if (from_rx_done_tick = '1') then
             to_led <= from_dout;
         end if;
     end process;  
-
-
+------------------------------------------------------------------------              
     with from_dout select
         valid_value <=   
             -- Octave 4
@@ -102,5 +98,4 @@ begin
             
             -- No tone
             "00000000"  when others;   -- No tone when invalid ascii character
-
 end arch;
