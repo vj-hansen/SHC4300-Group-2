@@ -79,7 +79,7 @@ begin
         rx_done_tick <= '0';
         case state_reg is 
             when idle =>
-                if rx='0' then
+                if rx='0' then -- start bit
                     state_next <= start;
                     s_next <= (others=>'0');
                 -- else stay idle
@@ -87,7 +87,7 @@ begin
 ------------------------------------------------------------                
             when start =>
                 if (s_tick = '1') then
-                    if s_reg=7 then -- restart counter
+                    if s_reg=7 then
                         state_next <= data;
                         s_next <= (others=>'0');
                         n_next <= (others=>'0');
@@ -139,7 +139,7 @@ The baud rate generator generates a sampling signal whose frequency is exactly 1
 -- Mod-M counter (listing 4.11)
 
 entity mod_m is
-    generic (   N: integer := 8;    -- num of bits
+    generic (   N: integer := 9;    -- num of bits
                 M: integer := 326 ); -- mod-326 counter 
 
 -- Frequency = 16x the required baud rate (16x oversampling)
@@ -182,8 +182,7 @@ entity top is
     generic (   DBIT : integer := 8;
                 SB_TICK : integer := 16; -- 16 ticks for 1 stop bit
                 DVSR : integer := 326;  -- baud rate divisor (= 100M/(16*baud rate))
-                DVSR_BIT: integer := 9; -- bits of DVSR
-                FIFO_W: integer := 2 ); -- address bits of FIFO, words in FIFO = 2^FIFO_W
+                DVSR_BIT: integer := 9 ); -- bits of DVSR
     
     port (  clk, rst: in std_logic;
             rd_uart, wr_uart, rx: in std_logic;
