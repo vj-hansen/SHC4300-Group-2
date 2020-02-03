@@ -16,7 +16,7 @@ end top;
 
 architecture Behavioral of top is
     signal s_tick, rx_done_tick :   std_logic;                      -- Signals for baud generator and UART
-    signal dout :                   std_logic_vector(7 downto 0);   -- data
+    signal dout :                   std_logic_vector(7 downto 0);   -- UART data
     signal m_in :                   std_logic_vector(17 downto 0);  -- ASCII code converted
     signal t_in, clr_FF :           std_logic;                      -- Signals for toggle unit
 
