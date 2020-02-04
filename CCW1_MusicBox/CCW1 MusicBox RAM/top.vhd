@@ -39,7 +39,7 @@ begin
         port map (  clk=>clk, rst=>rst, to_s_tick=>s_tick);
 ------------------------------------------------------------
 -- UART
-    UART: entity work.uart(arch)
+    UART_RX: entity work.uart(arch)
         port map (  clk=>clk, rst=>rst, rx=>rx,
                     from_s_tick=>s_tick, to_dout=>dout,
                     to_rx_done_tick=>rx_done_tick);
