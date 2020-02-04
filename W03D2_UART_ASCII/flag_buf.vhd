@@ -8,6 +8,7 @@
 -- being retreived multiple times.
 -- The circuit also provides a buffer space between the receiver
 -- and the main system.
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use ieee.numeric_std.all;
