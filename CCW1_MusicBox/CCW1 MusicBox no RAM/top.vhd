@@ -33,7 +33,7 @@ begin
         port map (clk=>clk, rst=>rst, to_s_tick=>s_tick);
 ------------------------------------------------------------
 -- UART to Basys3 board communication unit
-    UART: entity work.uart_rx(arch)
+    UART_RX: entity work.uart_rx(arch)
         port map (clk=>clk, rst=>rst, rx=>rx,
                   from_s_tick=>s_tick, to_rx_done_tick=>rx_done_tick,
                   to_dout=>dout);
