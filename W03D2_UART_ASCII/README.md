@@ -88,7 +88,7 @@ end arch;
 
 ---
 
-#### UART RX SUBSYSTEM
+#### UART receiver
 Since no clock information is conveyed from the transmitted signal, rx can retrieve the data bits only by using the predetermined parameters. We use an oversampling scheme to estimate the middle points of transmitted bits and then retrieve them at these points accordingly.
 ```vhdl
 ----------------------------------------------------------------------------------
@@ -122,7 +122,7 @@ begin
 
 -- State registers
     process(clk, rst) begin
-        if rst = '1' then
+        if (rst = '1') then
             state_reg <= idle;
             s_reg <= (others => '0');
             n_reg <= (others => '0');
@@ -146,7 +146,7 @@ begin
         case state_reg is 
 ------------------------------------------------------------                
             when idle =>
-                if rx='0' then -- start bit
+                if (rx='0') then -- start bit
                     state_next <= start;
                     s_next <= (others=>'0');
                 -- else stay idle
@@ -154,7 +154,7 @@ begin
 ------------------------------------------------------------                
             when start =>
                 if (from_s_tick = '1') then
-                    if s_reg=7 then -- incoming signal has reached the middle point of the start bit
+                    if (s_reg=7) then -- incoming signal has reached the middle point of the start bit
                         state_next <= data;
                         s_next <= (others=>'0');
                         n_next <= (others=>'0');
@@ -165,10 +165,10 @@ begin
 ------------------------------------------------------------                
             when data =>
                 if (from_s_tick = '1') then
-                    if s_reg=15 then -- incoming signal has reached the middle point of the first data bit
+                    if (s_reg=15) then -- incoming signal has reached the middle point of the first data bit
                         s_next <= (others => '0');
                         b_next <= rx & b_reg(7 downto 1); -- shift value of data bit into b-register
-                        if n_reg=(DBIT-1) then -- all data bits retrieved
+                        if (n_reg=(DBIT-1)) then -- all data bits retrieved
                             state_next <= stop;
                         else
                             n_next <= n_reg+1;
@@ -180,7 +180,7 @@ begin
 ------------------------------------------------------------
             when stop =>
                 if (from_s_tick = '1') then
-                    if s_reg=(SB_TICK-1) then -- all stop bits obtained
+                    if (s_reg=(SB_TICK-1)) then -- all stop bits obtained
                         state_next <= idle;
                         rx_done_tick <= '1';
                     else
@@ -205,108 +205,29 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity top is
-    port ( 
-        clk, rst, rx : in std_logic;
-        led :   out std_logic_vector(7 downto 0);
-        sseg:   out std_logic_vector(6 downto 0);
-        anode:  out std_logic_vector(3 downto 0)
-        );
+    port ( clk, rst, rx : in std_logic;
+           led : out std_logic_vector(7 downto 0) );
 end top;
 ---------------------------------------------------------
 architecture arch of top is
-    signal s_tick, rx_done_tick:    std_logic;
-    signal dout:                    std_logic_vector(7 downto 0);
+    signal s_tick, rx_done_tick: std_logic;
+    signal dout: std_logic_vector(7 downto 0);
 begin
-
--- FSM controller
-    FSM_Controller: entity work.fsm_controller(arch)
-        port map (  from_dout=>dout, from_rx_done_tick=>rx_done_tick, 
-                    to_led=>led );
 ---------------------------------------------------------
--- Baud generator
     Baud_Generator: entity work.mod_m(arch)
-        port map (  clk=>clk, rst=>rst, to_s_tick=>s_tick );
+        port map ( clk=>clk, rst=>rst, to_s_tick=>s_tick );
 ---------------------------------------------------------
--- UART 
-    UART: entity work.uart(arch)
-        port map (  clk=>clk, rst=>rst, rx=>rx, to_dout=>dout,
-                    from_s_tick=>s_tick, rx_done_tick=>rx_done_tick );
+    UART_rx: entity work.uart(arch)
+        port map ( clk=>clk, rst=>rst, rx=>rx, to_dout=>dout,
+                   from_s_tick=>s_tick, rx_done_tick=>rx_done_tick );
 ---------------------------------------------------------
--- ASCII to 7 segment display conversion
-    ASCII_To_7SEG: entity work.ascii2sseg(arch)
-        port map (  anode=>anode, sseg=>sseg, from_dout=>dout );
----------------------------------------------------------
-end arch;
-```
-
-#### FSM Controller (just move this code into the top design module)
-```vhdl
-----------------------------------------------------------------------------------
--- FSM control path
-----------------------------------------------------------------------------------
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-
-entity fsm_controller is
-    port ( 
-        from_rx_done_tick: in std_logic;
-        from_dout : in std_logic_vector(7 downto 0);
-        to_led: out std_logic_vector(7 downto 0)
-        );
-end fsm_controller;
-----------------------------------------------------------------------------------
-architecture arch of fsm_controller is
-begin
     -- Display ASCII from UART on Basys3 LEDs
-    process(from_rx_done_tick) begin
-        if (from_rx_done_tick = '1') then
-            to_led <= from_dout;
+    process(rx_done_tick) begin
+        if (rx_done_tick = '1') then
+            led <= dout;
         end if;
-    end process;  
+    end process; 
 end arch;
 ```
-
-#### ASCII to 7 segment display controller
-```vhdl
-----------------------------------------------------------------------------------
--- Listing 8.4
-----------------------------------------------------------------------------------
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-
-entity ascii2sseg is
-   port (
-      from_dout: in std_logic_vector(7 downto 0);
-      sseg: out std_logic_vector(6 downto 0);
-      anode: out std_logic_vector(3 downto 0)
-      );
-end ascii2sseg;
-----------------------------------------------------------------------------------
-architecture arch of ascii2sseg is
-begin
-    anode <= "1110";
-    with from_dout select
-        sseg <=
-        --abcdefg         ascii
-        "0000001" when "00110000", -- 0
-        "1001111" when "00110001", -- 1
-        "0010010" when "00110010", -- 2
-        "0000110" when "00110011", -- 3
-        "1001100" when "00110100", -- 4
-        "0100100" when "00110101", -- 5
-        "0100000" when "00110110", -- 6
-        "0001111" when "00110111", -- 7
-        "0000000" when "00111000", -- 8
-        "0001100" when "00111001", -- 9
-        "0001000" when "01000001", -- A
-        "1100000" when "01100010", -- b
-        "0110001" when "01000011", -- C
-        "1000010" when "01100100", -- d
-        "0110000" when "01000101", -- E
-        "0111000" when "01000110", -- F
-        "1111111" when others; -- nothing
-end arch;
-```
-
 
 **Source: FPGA Prototyping by VHDL Examples, Pong P. Chu**
