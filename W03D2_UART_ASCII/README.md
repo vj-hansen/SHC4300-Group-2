@@ -239,7 +239,7 @@ begin
 end arch;
 ```
 
-#### FSM Controller
+#### FSM Controller (just move this code into the top design module)
 ```vhdl
 ----------------------------------------------------------------------------------
 -- FSM control path
