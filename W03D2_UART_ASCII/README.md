@@ -34,27 +34,36 @@ The transmission with 8 data bits, no parity, and 1 stop bit is shown in the fig
 #### UART RX SUBSYSTEM
 Since no clock information is conveyed from the transmitted signal, rx can retrieve the data bits only by using the predetermined parameters. We use an oversampling scheme to estimate the middle points of transmitted bits and then retrieve them at these points accordingly.
 ```vhdl
--- UART receiver (listing 7.1)
+----------------------------------------------------------------------------------
+-- listing 7.1
+-- UART receiver
+----------------------------------------------------------------------------------
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.numeric_std.all;
 ------------------------------------------------------------
-entity uart_rx is
-    generic (   DBIT: integer := 8; -- data bits
-                SB_TICK: integer := 16 ); -- ticks for stop bits
+entity uart is
+    generic (
+        DBIT: integer := 8; -- data bits
+        SB_TICK: integer := 16 ); -- ticks for stop bits
 
-    port (  clk, rst, rx, s_tick: in std_logic;
-            rx_done_tick: out std_logic;
-            dout: out std_logic_vector(7 downto 0) );
-end uart_rx;
-------------------------------------------------------------
-architecture arch of uart_rx is
+    Port ( 
+        clk, rst, rx, from_s_tick: in std_logic;
+        rx_done_tick : out std_logic;
+        to_dout : out std_logic_vector(7 downto 0) );
+end uart;
+
+architecture arch of uart is
     type state_type is (idle, start, data, stop);
-    signal state_reg, state_next: state_type;      -- current and next state
-    signal s_reg, s_next: unsigned(3 downto 0);    -- keep track of sampling ticks and count to 7 in the 'start' state
-    signal n_reg, n_next: unsigned(2 downto 0);    -- keep track of data bits received in the 'data' state
-    signal b_reg, b_next: std_logic_vector(7 downto 0); -- deserializes rx
-    -- retrieved bits are shifted into and reassembled in the 'b' register
+    signal state_reg, state_next : state_type; -- current and next state
+    signal s_reg, s_next : unsigned(3 downto 0); -- keep track of sampling ticks and count to 7 in the 'start' state
+    signal n_reg, n_next : unsigned(2 downto 0); -- keep track of data bits received in the 'data' state
+    signal b_reg, b_next : std_logic_vector(7 downto 0); -- (deserializes rx) retrieved bits are shifted into and reassembled in the 'b' register
+
+----------------------------------------------------------------------------------
 begin
-------------------------------------------------------------
--- FSMD state and data registers
+
+-- State registers
     process(clk, rst) begin
         if rst = '1' then
             state_reg <= idle;
@@ -68,9 +77,9 @@ begin
             b_reg <= b_next;
         end if;
     end process;
-------------------------------------------------------------    
--- next-state logic and data path functional routing
-    process(state_reg, s_reg, n_reg, b_reg, s_tick, rx)
+
+-- next-state logic
+    process(state_reg, s_reg, n_reg, b_reg, from_s_tick, rx)
     begin
         state_next <= state_reg;
         s_next <= s_reg;
@@ -78,16 +87,17 @@ begin
         b_next <= b_reg;
         rx_done_tick <= '0';
         case state_reg is 
+------------------------------------------------------------                
             when idle =>
-                if rx='0' then -- start bit
+                if rx='0' then
                     state_next <= start;
                     s_next <= (others=>'0');
                 -- else stay idle
                 end if;
 ------------------------------------------------------------                
             when start =>
-                if (s_tick = '1') then
-                    if s_reg=7 then
+                if (from_s_tick = '1') then
+                    if s_reg=7 then -- restart counter
                         state_next <= data;
                         s_next <= (others=>'0');
                         n_next <= (others=>'0');
@@ -97,7 +107,7 @@ begin
                 end if;
 ------------------------------------------------------------                
             when data =>
-                if (s_tick = '1') then
+                if (from_s_tick = '1') then
                     if s_reg=15 then -- read RxD, feed its value to deserializer, restart counter
                         s_next <= (others => '0');
                         b_next <= rx & b_reg(7 downto 1); -- b = rx & (b >> 1)
@@ -111,8 +121,8 @@ begin
                     end if;
                 end if;
 ------------------------------------------------------------
-            when stop => --
-                if (s_tick = '1') then
+            when stop =>
+                if (from_s_tick = '1') then
                     if s_reg=(SB_TICK-1) then
                         state_next <= idle;
                         rx_done_tick <= '1';
@@ -122,7 +132,9 @@ begin
                 end if;
         end case;
     end process;
-    dout <= b_reg;
+    
+    -- Output
+    to_dout <= b_reg;
 end arch;
 ```
 
@@ -136,84 +148,175 @@ The baud rate generator generates a sampling signal whose frequency is exactly 1
 
 
 ```vhdl
--- Mod-M counter (listing 4.11)
-
-entity mod_m is
-    generic (   N: integer := 9;    -- num of bits
-                M: integer := 326 ); -- mod-326 counter 
+----------------------------------------------------------------------------------
+-- Listing 4.11 Mod-m counter
+-- This baud-rate generator will generate sampling ticks
 
 -- Frequency = 16x the required baud rate (16x oversampling)
 -- 19200 bps * 16 = 307200 ticks/s
 -- 100 MHz / 307200 = 325.52 = 326
+----------------------------------------------------------------------------------
 
-    port (  clk, rst: in std_logic;
-            max_tick: out std_logic;
-            q: out std_logic_vector(N-1 downto 0) );
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use ieee.numeric_std.all;
+
+entity mod_m is
+    generic (
+        N: integer := 9; -- num of bits
+        M: integer := 326 ); -- mod-326 counter 
+
+    port ( 
+        clk, rst:   in std_logic;
+        to_s_tick:  out std_logic );
 end mod_m;
 ------------------------------------------
 architecture arch of mod_m is
-    signal r_reg: unsigned(N-1 downto 0);
-    signal r_next: unsigned(N-1 downto 0);
+    signal r_reg:   unsigned(N-1 downto 0);
+    signal r_next:  unsigned(N-1 downto 0);
+    signal q:       std_logic_vector(N-1 downto 0);
+     
+----------------------------------------------------------------------------------
 begin
     -- register
     process(clk, rst) begin
         if (rst = '1') then
-            r_reg <= (others=>'0');
+            r_reg <= (others =>'0');
         elsif rising_edge(clk) then
             r_reg <= r_next;
         end if;
     end process;
-   
+    
     -- next-state logic
-    r_next<=(others=>'0') when r_reg=(M-1) else r_reg+1; --
+    r_next <= (others => '0') when r_reg=(M-1) else r_reg+1;
     
     -- output logic
-    q<=std_logic_vector(r_reg); --
-    max_tick<='1' when r_reg=(M-1) else '0'; --
+    q <= std_logic_vector(r_reg);
+    to_s_tick <= '1' when r_reg=(M-1) else '0';
 end arch;
 ```
 
 ---
 #### Top module
 ```vhdl
----------------------------------------------------------
+----------------------------------------------------------------------------------
+-- Top design module 
+----------------------------------------------------------------------------------
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
 entity top is
-    -- 19200 baud, 8 data bits, 1 stop bit, 2^2 FIFO
-    generic (   DBIT : integer := 8;
-                SB_TICK : integer := 16; -- 16 ticks for 1 stop bit
-                DVSR : integer := 326;  -- baud rate divisor (= 100M/(16*baud rate))
-                DVSR_BIT: integer := 9 ); -- bits of DVSR
-    
-    port (  clk, rst: in std_logic;
-            rd_uart, wr_uart, rx: in std_logic;
-            w_data: in std_logic_vector(7 downto 0);
-            led: out std_logic_vector(7 downto 0) );
+    port ( 
+        clk, rst, rx : in std_logic;
+        led :   out std_logic_vector(7 downto 0);
+        sseg:   out std_logic_vector(6 downto 0);
+        anode:  out std_logic_vector(3 downto 0)
+        );
 end top;
----------------------------------------------------------
-architecture Behavioral of top is
-    signal tick, rx_done_tick: std_logic;
-    signal rx_data_out: std_logic_vector(7 downto 0);
+
+architecture arch of top is
+    signal s_tick, rx_done_tick:    std_logic;
+    signal dout:                    std_logic_vector(7 downto 0);
+
+----------------------------------------------------------------------------------
 begin
+------------------------------------------------------------
+-- FSM control
+    FSM_Controler: entity work.fsm_controller(arch)
+        port map (  from_dout=>dout, from_rx_done_tick=>rx_done_tick, 
+                    to_led=>led );
 ---------------------------------------------------------
-    baud_gen_unit: entity work.mod_m(arch)
-        generic map ( M=>DVSR, N=>DVSR_BIT )
-        port map ( clk=>clk, rst=>rst, q=>open, max_tick=>tick ); -- 'open'-keyword = q is an unused signal
+-- Baud generator
+    Baud_Generator: entity work.mod_m(arch)
+        port map (  clk=>clk, rst=>rst, to_s_tick=>s_tick );
 ---------------------------------------------------------
-    uart_rx_unit: entity work.uart_rx(arch)
-        generic map ( DBIT=>DBIT, SB_TICK=>SB_TICK )
-        port map (  clk=>clk, rst=>rst, rx=>rx, s_tick=>tick, 
-                    rx_done_tick=>rx_done_tick,
-                    dout=>rx_data_out );
+-- UART 
+    UART: entity work.uart(arch)
+        port map (  clk=>clk, rst=>rst, rx=>rx, to_dout=>dout,
+                    from_s_tick=>s_tick, rx_done_tick=>rx_done_tick );
 ---------------------------------------------------------
-    process(rx_done_tick) begin
-        if (rx_done_tick='1') then
-            led <= rx_data_out; -- set LEDs when all data bits are received
-        end if;
-    end process;  
-end Behavioral;
+-- ASCII to 7 segment display conversion
+    ASCII_To_7SEG: entity work.ascii2sseg(arch)
+        port map (  anode=>anode, sseg=>sseg, from_dout=>dout );
+---------------------------------------------------------
+end arch;
 ```
 
+#### FSM Controller
+```vhdl
+----------------------------------------------------------------------------------
+-- FSM control path
+----------------------------------------------------------------------------------
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
 
 
+entity fsm_controller is
+    port ( 
+        from_rx_done_tick: in std_logic;
+        from_dout : in std_logic_vector(7 downto 0);
+        to_led: out std_logic_vector(7 downto 0)
+        );
+end fsm_controller;
+
+architecture arch of fsm_controller is
+    
+----------------------------------------------------------------------------------
+begin
+
+    -- Dispaly ASCII from UART on Basys3 LEDs
+    process(from_rx_done_tick) begin
+        if (from_rx_done_tick = '1') then
+            to_led <= from_dout;
+        end if;
+    end process;  
+
+end arch;
+```
+
+#### ASCII to 7 segment display controller
+```vhdl
+----------------------------------------------------------------------------------
+-- Listing 8.4
+----------------------------------------------------------------------------------
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity ascii2sseg is
+   port (
+      from_dout: in std_logic_vector(7 downto 0);
+      sseg: out std_logic_vector(6 downto 0);
+      anode: out std_logic_vector(3 downto 0)
+      );
+end ascii2sseg;
+
+architecture arch of ascii2sseg is
+
+----------------------------------------------------------------------------------
+begin
+    anode <= "1110";
+    with from_dout select
+        sseg <=
+        --abcdefg         ascii
+        "0000001" when "00110000", -- 0
+        "1001111" when "00110001", -- 1
+        "0010010" when "00110010", -- 2
+        "0000110" when "00110011", -- 3
+        "1001100" when "00110100", -- 4
+        "0100100" when "00110101", -- 5
+        "0100000" when "00110110", -- 6
+        "0001111" when "00110111", -- 7
+        "0000000" when "00111000", -- 8
+        "0001100" when "00111001", -- 9
+        "0001000" when "01000001", -- A
+        "1100000" when "01100010", -- b
+        "0110001" when "01000011", -- C
+        "1000010" when "01100100", -- d
+        "0110000" when "01000101", -- E
+        "0111000" when "01000110", -- F
+        "1111111" when others; -- nothing
+end arch;
+```
 
 Source: FPGA Prototyping by VHDL Examples, Pong P. Chu
