@@ -4,12 +4,12 @@ use IEEE.STD_LOGIC_1164.ALL;
 use ieee.numeric_std.all; 
 
 entity baud_rate_generator is
-	generic (  N : integer := 9; -- number of bits
-		   M : integer := 326 ); -- mod-m
+	generic (  N : integer := 9; -- number of bits needed to count to M
+		   M : integer := 326 );
 
     Port ( clk : in  STD_LOGIC;
            reset : in  STD_LOGIC;
-           max_tick : out  STD_LOGIC; -- Connect this to 
+           max_tick : out  STD_LOGIC;
            q : out  STD_LOGIC_VECTOR(N-1 downto 0) );
 end baud_rate_generator;
 
