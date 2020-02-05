@@ -15,7 +15,7 @@ entity RAM is
 end RAM;
 ----------------------------------------------------
 architecture beh_arch of RAM is
-	type ram_type is array (2**ADDR_WIDTH-1 downto 0)
+   type ram_type is array (2**ADDR_WIDTH-1 downto 0)
     	of std_logic_vector (DATA_WIDTH-1 downto 0);
    signal ram: ram_type;
    signal addr_reg: std_logic_vector(ADDR_WIDTH-1 downto 0);
