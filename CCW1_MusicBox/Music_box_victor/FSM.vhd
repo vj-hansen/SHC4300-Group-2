@@ -57,12 +57,13 @@ begin
                 to_clr_FF <= '1';
                 pcntr_next <= (others => '0');
                 if (from_rx_done_tick = '1') then
+			-- octave 4
                     if ( from_dout = X"43" or from_dout = X"44" or from_dout = X"45" or from_dout = X"46"  
-                         or from_dout = X"47" or from_dout = X"41" or from_dout = X"42" -- octave 4
-                         
+                         or from_dout = X"47" or from_dout = X"41" or from_dout = X"42"
+                        -- octave 5
                          or from_dout = X"63" or from_dout = X"64" or from_dout = X"65" or from_dout = X"66" 
-                         or from_dout = X"67" or from_dout = X"61" or from_dout = X"62") then -- octave 5
-                        state_next <= store_1;
+                         or from_dout = X"67" or from_dout = X"61" or from_dout = X"62") then
+                        	state_next <= store_1;
                     end if;
                 end if;
             ----------------------------------------------------
@@ -82,12 +83,13 @@ begin
                     if (from_dout = X"29") then	-- ASCII for ']' change this to ')'
                         to_wr_en <= '1';
                         state_next <= wait_for_play;
+			-- octave 4
                     elsif (from_dout = X"43" or from_dout = X"44" or from_dout = X"45" or from_dout = X"46"  
                          or from_dout = X"47" or from_dout = X"41" or from_dout = X"42" -- octave 4
-                         
+                         -- octave 5
                          or from_dout = X"63" or from_dout = X"64" or from_dout = X"65" or from_dout = X"66" 
-                         or from_dout = X"67" or from_dout = X"61" or from_dout = X"62") then -- octave 5
-                        state_next <= store_1;
+                         or from_dout = X"67" or from_dout = X"61" or from_dout = X"62") then
+                        	state_next <= store_1;
                     end if;
                 end if;
             ----------------------------------------------------
