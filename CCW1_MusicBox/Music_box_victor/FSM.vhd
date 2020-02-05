@@ -57,7 +57,7 @@ begin
                 to_clr_FF <= '1';
                 pcntr_next <= (others => '0');
                 if (from_rx_done_tick = '1') then
-			-- octave 4
+			-- octave 4 (could this be done in a simpler way)
                     if ( from_dout = X"43" or from_dout = X"44" or from_dout = X"45" or from_dout = X"46"  
                          or from_dout = X"47" or from_dout = X"41" or from_dout = X"42"
                         -- octave 5
