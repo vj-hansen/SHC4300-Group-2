@@ -20,13 +20,13 @@ architecture beh_arch of RAM is
    signal ram: ram_type;
    signal addr_reg: std_logic_vector(ADDR_WIDTH-1 downto 0);
 begin
-	process (clk) begin
+ process (clk) begin
     	if rising_edge(clk) then
-        	if (we='1') then
-            	ram(to_integer(unsigned(addr))) <= wrbus;
-           	end if;
-        	addr_reg <= addr;
+          if (we='1') then
+            ram(to_integer(unsigned(addr))) <= wrbus;
+          end if;
+          addr_reg <= addr;
       	end if;
- 	end process;
-   	rdbus <= ram(to_integer(unsigned(addr_reg)));
+  end process;
+  rdbus <= ram(to_integer(unsigned(addr_reg)));
 end beh_arch;
