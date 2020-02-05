@@ -13,7 +13,7 @@ architecture Behavioral of CodeConverter is
 begin
     process(from_dout) begin		
 	   case from_dout is						
-				when "01000011" =>   to_m_in <= "101110101010001001"; -- C4: 43H (C)
+			    when "01000011" =>   to_m_in <= "101110101010001001"; -- C4: 43H (C)
 			    when "01000100" =>   to_m_in <= "101001100100010110"; -- D4: 44H (D) 
 			    when "01000101" =>   to_m_in <= "100101000010000110"; -- E4: 45H (E) 
 			    when "01000110" =>   to_m_in <= "100010111101000101"; -- F4: 46H (F) 
