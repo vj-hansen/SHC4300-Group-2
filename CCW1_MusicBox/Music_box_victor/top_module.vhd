@@ -19,6 +19,8 @@ entity top is
 end top;
 
 architecture Behavioral of top is
+	-- replace 'component baud_rate_generator is' with 
+	-- 'entity work.baud_rate_generator(arch)' etc...
 -----------------------baud_rate_generator----------------------------------
 	component baud_rate_generator is
         generic (N : integer := 9; -- number of bits needed to count to M
