@@ -4,9 +4,9 @@ use ieee.numeric_std.all;
 
 entity T_FF is
     Port (  clk, reset: in std_logic;
-			from_t_in: in std_logic;
-			from_clr_FF: in std_logic;
-			to_ldspkr: out std_logic );
+	    from_t_in: in std_logic;
+	    from_clr_FF: in std_logic;
+  	    to_ldspkr: out std_logic );
 end T_FF;
 ----------------------------------------------------
 architecture Behavioral of T_FF is
