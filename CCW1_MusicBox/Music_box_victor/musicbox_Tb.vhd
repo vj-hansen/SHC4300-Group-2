@@ -11,27 +11,19 @@ ARCHITECTURE behavior OF musicbox_tb IS
                leds : OUT  std_logic_vector(7 downto 0) );
     END COMPONENT;
     
-   --Inputs
    signal rx, clk, reset, play : std_logic := '0';
-
-   --Outputs
    signal loudspeaker : std_logic;
    signal leds : std_logic_vector(7 downto 0);
-
-   -- Clock period definitions
    constant clk_period : time := 10 ns;
  
 BEGIN
-	-- Instantiate the Unit Under Test (UUT)
-   uut: top PORT MAP (
-          rx => rx,
-          clk => clk,
-          reset => reset,
-          loudspeaker => loudspeaker,
-          play => play,
-          leds => leds );
+   uut: top PORT MAP ( rx => rx,
+         	      clk => clk,
+          	      reset => reset,
+          	      loudspeaker => loudspeaker,
+		      play => play,
+		      leds => leds );
 
-   -- Clock process definitions
    clk_process: process begin
 		clk <= '0';
 		wait for clk_period/2;
@@ -41,146 +33,142 @@ BEGIN
 
    stim_proc: process begin		
       reset <= '1';
-	  play <= '0';
+      play <= '0';
       wait for 100 ns;
-	  reset <= '0';
-	  rx <= '1';
+      reset <= '0';
+      rx <= '1';
       wait for clk_period;
 
-    --send dout = X"7C = 0111 1100" -- start of tune
+    	--send dout = X"28 = 0010 1000" -- start of tune '('
     	rx <= '0';		-- start bit
-      wait for 52083 ns;	-- 1 bit / 19200 bps = 52083 ns
-		rx <= '0';		-- data bit #1 (lsb)
       wait for 52083 ns;
-		rx <= '0';		-- data bit #2
+	rx <= '0';		-- data bit #1 (lsb)
       wait for 52083 ns;
-		rx <= '1';		-- data bit #3
+	rx <= '0';		-- data bit #2
       wait for 52083 ns;
-		rx <= '1';		-- data bit #4
+	rx <= '0';		-- data bit #3
       wait for 52083 ns;
-		rx <= '1';		-- data bit #5
+	rx <= '1';		-- data bit #4
       wait for 52083 ns;
-		rx <= '1';		-- data bit #6
+	rx <= '0';		-- data bit #5
       wait for 52083 ns;
-		rx <= '1';		-- data bit #7
+	rx <= '1';		-- data bit #6
       wait for 52083 ns;
-		rx <= '0';		-- data bit #8 (msb)
+	rx <= '0';		-- data bit #7
       wait for 52083 ns;
-		rx <= '1';		-- stop bit
+	rx <= '0';		-- data bit #8 (msb)
       wait for 52083 ns;
-		rx <= '1';		-- idle for a while
+	rx <= '1';		-- stop bit
+      wait for 52083 ns;
+	rx <= '1';		-- idle for a while
       wait for clk_period*10;  
     
 
-		-- send data word 01100111 (msb at left): g5: 67H (g) 
-		rx <= '0';		-- start bit
+	-- send data word 01100111 (msb at left): g5: 67H (g) 
+	rx <= '0';		-- start bit
       wait for 52083 ns;
-		rx <= '1';		-- data bit #1 (lsb)
+	rx <= '1';		-- data bit #1 (lsb)
       wait for 52083 ns;
-		rx <= '1';		-- data bit #2
+	rx <= '1';		-- data bit #2
       wait for 52083 ns;
-		rx <= '1';		-- data bit #3
+	rx <= '1';		-- data bit #3
       wait for 52083 ns;
-		rx <= '0';		-- data bit #4
+	rx <= '0';		-- data bit #4
       wait for 52083 ns;
-		rx <= '0';		-- data bit #5
+	rx <= '0';		-- data bit #5
       wait for 52083 ns;
-		rx <= '1';		-- data bit #6
+	rx <= '1';		-- data bit #6
       wait for 52083 ns;
-		rx <= '1';		-- data bit #7
+	rx <= '1';		-- data bit #7
       wait for 52083 ns;
-		rx <= '0';		-- data bit #8 (msb)
+	rx <= '0';		-- data bit #8 (msb)
       wait for 52083 ns;
-		rx <= '1';		-- stop bit
+	rx <= '1';		-- stop bit
       wait for 52083 ns;
-		rx <= '1';		-- idle for a while
+	rx <= '1';		-- idle for a while
       wait for clk_period*10;
 		
-		wait for 3 ms; 
-		
-		-- send data word 01000110 (msb at left): F4: 46H (F) 
-		rx <= '0';		-- start bit
+	-- send data word 01000110 (msb at left): F4: 46H (F) 
+	rx <= '0';		-- start bit
       wait for 52083 ns;
-		rx <= '0';		-- data bit #1 (lsb)
+	rx <= '0';		-- data bit #1 (lsb)
       wait for 52083 ns;
-		rx <= '1';		-- data bit #2
+	rx <= '1';		-- data bit #2
       wait for 52083 ns;
-		rx <= '1';		-- data bit #3
+	rx <= '1';		-- data bit #3
       wait for 52083 ns;
-		rx <= '0';		-- data bit #4
+	rx <= '0';		-- data bit #4
       wait for 52083 ns;
-		rx <= '0';		-- data bit #5
+	rx <= '0';		-- data bit #5
       wait for 52083 ns;
-		rx <= '0';		-- data bit #6
+	rx <= '0';		-- data bit #6
       wait for 52083 ns;
-		rx <= '1';		-- data bit #7
+	rx <= '1';		-- data bit #7
       wait for 52083 ns;
-		rx <= '0';		-- data bit #8 (msb)
+	rx <= '0';		-- data bit #8 (msb)
       wait for 52083 ns;
-		rx <= '1';		-- stop bit
+	rx <= '1';		-- stop bit
       wait for 52083 ns;
-		rx <= '1';		-- idle for a while
+	rx <= '1';		-- idle for a while
       wait for clk_period*10;
 		
-	   wait for 3 ms;   
-		
-		-- send data word 01100100 (msb at left): d5: 64H (d)
-		rx <= '0';		-- start bit
+	-- send data word 01100100 (msb at left): d5: 64H (d)
+	rx <= '0';		-- start bit
       wait for 52083 ns;
-		rx <= '0';		-- data bit #1 (lsb)
+	rx <= '0';		-- data bit #1 (lsb)
       wait for 52083 ns;
-		rx <= '0';		-- data bit #2
+	rx <= '0';		-- data bit #2
       wait for 52083 ns;
-		rx <= '1';		-- data bit #3
+	rx <= '1';		-- data bit #3
       wait for 52083 ns;
-		rx <= '0';		-- data bit #4
+	rx <= '0';		-- data bit #4
       wait for 52083 ns;
-		rx <= '0';		-- data bit #5
+	rx <= '0';		-- data bit #5
       wait for 52083 ns;
-		rx <= '1';		-- data bit #6
+	rx <= '1';		-- data bit #6
       wait for 52083 ns;
-		rx <= '1';		-- data bit #7
+	rx <= '1';		-- data bit #7
       wait for 52083 ns;
-		rx <= '0';		-- data bit #8 (msb)
+	rx <= '0';		-- data bit #8 (msb)
       wait for 52083 ns;
-		rx <= '1';		-- stop bit
+	rx <= '1';		-- stop bit
       wait for 52083 ns;
-		rx <= '1';		-- idle for a while
+	rx <= '1';		-- idle for a while
       wait for clk_period*10;  
    
    
-    --send dout = X"5D = 0101 1101" -- end of tune
+    --send dout = X"29 = 0010 1001" -- end of tune ')'
     	rx <= '0';		-- start bit
       wait for 52083 ns;
-		rx <= '1';		-- data bit #1 (lsb)
+	rx <= '1';		-- data bit #1 (lsb)
       wait for 52083 ns;
-		rx <= '0';		-- data bit #2
+	rx <= '0';		-- data bit #2
       wait for 52083 ns;
-		rx <= '1';		-- data bit #3
+	rx <= '0';		-- data bit #3
       wait for 52083 ns;
-		rx <= '1';		-- data bit #4
+	rx <= '1';		-- data bit #4
       wait for 52083 ns;
-		rx <= '1';		-- data bit #5
+	rx <= '0';		-- data bit #5
       wait for 52083 ns;
-		rx <= '0';		-- data bit #6
+	rx <= '1';		-- data bit #6
       wait for 52083 ns;
-		rx <= '1';		-- data bit #7
+	rx <= '0';		-- data bit #7
       wait for 52083 ns;
-		rx <= '0';		-- data bit #8 (msb)
+	rx <= '0';		-- data bit #8 (msb)
       wait for 52083 ns;
-		rx <= '1';		-- stop bit
+	rx <= '1';		-- stop bit
       wait for 52083 ns;
-		rx <= '1';		-- idle for a while
+	rx <= '1';		-- idle for a while
       wait for clk_period*10;  
 
 	  play <= '1';
 	  wait for clk_period*10;
 	  play <= '0';
-      wait for  clk_period*1000000;
+      	  wait for  clk_period*1000000;
 	  play <= '1';
 	  wait for clk_period*10000000;
 	  play <= '0';
-      wait for clk_period;		
-      wait;
+      	  wait for clk_period;		
+      	  wait;
    end process;
 END;
