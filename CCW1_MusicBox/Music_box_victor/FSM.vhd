@@ -18,9 +18,9 @@ entity FSM is
            to_clr_FF             : out  STD_LOGIC );
 end FSM;
 
-architecture Behavioral of FSM is
+architecture arch of FSM is
 type state_type is (init, check_for_ABC, store_1, store_2, store_3, 
-						  wait_for_play, play_1, play_2);
+		    wait_for_play, play_1, play_2);
     signal state_next, state_reg : state_type;
     signal pcntr_next, pcntr_reg : unsigned (ADDR_WIDTH-1 downto 0); -- program counter (to_abus)
 begin
@@ -48,7 +48,7 @@ begin
             when init =>
                 to_clr_FF <= '1';
                 if (from_rx_done_tick = '1') then 
-                    if (from_dout = X"28") then	-- ASCII for '|' change this to '('
+                    if (from_dout = X"28") then	-- ASCII for '('
                         state_next <= check_for_ABC;
                     end if;
                 end if;
@@ -62,7 +62,7 @@ begin
                          or from_dout = X"47" or from_dout = X"41" or from_dout = X"42"
                         -- octave 5
                          or from_dout = X"63" or from_dout = X"64" or from_dout = X"65" or from_dout = X"66" 
-                         or from_dout = X"67" or from_dout = X"61" or from_dout = X"62") then
+                         or from_dout = X"67" or from_dout = X"61" or from_dout = X"62") then 
                         	state_next <= store_1;
                     end if;
                 end if;
@@ -80,16 +80,16 @@ begin
             when store_3 =>
                 to_clr_FF <= '1';
                 if (from_rx_done_tick = '1') then
-                    if (from_dout = X"29") then	-- ASCII for ']' change this to ')'
+                    if (from_dout = X"29") then	-- ASCII for ')'
                         to_wr_en <= '1';
                         state_next <= wait_for_play;
 			-- octave 4
                     elsif (from_dout = X"43" or from_dout = X"44" or from_dout = X"45" or from_dout = X"46"  
-                         or from_dout = X"47" or from_dout = X"41" or from_dout = X"42"
+                         or from_dout = X"47" or from_dout = X"41" or from_dout = X"42" 
                          -- octave 5
                          or from_dout = X"63" or from_dout = X"64" or from_dout = X"65" or from_dout = X"66" 
-                         or from_dout = X"67" or from_dout = X"61" or from_dout = X"62") then
-                        	state_next <= store_1;
+                         or from_dout = X"67" or from_dout = X"61" or from_dout = X"62") then 
+                        state_next <= store_1;
                     end if;
                 end if;
             ----------------------------------------------------
@@ -99,14 +99,14 @@ begin
                 if (from_play = '1') then
                     state_next <= play_1;
                 elsif (from_rx_done_tick = '1') then
-                    if (from_dout = X"7C") then
+                    if (from_dout = X"28") then -- -- ASCII for '('
                         state_next <= check_for_ABC;
                     end if;
                 end if;
             ----------------------------------------------------
             when play_1 =>
                 to_td_on <= '1';
-                if (from_rdbus = X"29") then	-- ']' (end of tune) change this to ')'
+                if (from_rdbus = X"29") then	-- ')' end of tune
                     state_next <= wait_for_play;
                 elsif (from_td_done = '1') then
                     state_next <= play_2;
@@ -120,4 +120,4 @@ begin
     end process;
     
     to_abus <= std_logic_vector (pcntr_reg);
-end Behavioral;
+end arch;
