@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 
 entity baud_rate_generator is
 	generic (  N : integer := 9; -- number of bits
-			   M : integer := 326 ); -- mod-m
+		   M : integer := 326 ); -- mod-m
 
     Port ( clk : in  STD_LOGIC;
            reset : in  STD_LOGIC;
