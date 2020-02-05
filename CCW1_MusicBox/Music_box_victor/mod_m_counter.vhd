@@ -12,8 +12,7 @@ entity mod_m_counter is
 end mod_m_counter;
 
 architecture arch of mod_m_counter is
-	signal r_reg : unsigned(N-1 downto 0);
-	signal r_next : unsigned(N-1 downto 0);	
+	signal r_reg, r_next : unsigned(N-1 downto 0);
 begin
 	process(clk, reset) begin
 		if(reset = '1') then
