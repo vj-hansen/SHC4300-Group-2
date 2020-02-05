@@ -8,13 +8,13 @@ entity FSM is
              DATA_WIDTH: integer := 8 );
     
     port ( clk, reset, from_play : in  STD_LOGIC;
-		   from_rx_done_tick     : in  STD_LOGIC;
-		   from_td_done          : in  STD_LOGIC;
+	   from_rx_done_tick     : in  STD_LOGIC;
+	   from_td_done          : in  STD_LOGIC;
            from_dout             : in  STD_LOGIC_VECTOR (DATA_WIDTH-1 downto 0);
            from_rdbus            : in  STD_LOGIC_VECTOR (DATA_WIDTH-1 downto 0);
-		   to_abus               : out STD_LOGIC_VECTOR (ADDR_WIDTH-1 downto 0);
-		   to_wr_en              : out  STD_LOGIC;
-		   to_td_on              : out  STD_LOGIC;
+	   to_abus               : out STD_LOGIC_VECTOR (ADDR_WIDTH-1 downto 0);
+	   to_wr_en              : out  STD_LOGIC;
+	   to_td_on              : out  STD_LOGIC;
            to_clr_FF             : out  STD_LOGIC );
 end FSM;
 
