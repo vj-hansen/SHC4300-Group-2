@@ -8,10 +8,10 @@ entity TimerDelay is
    generic ( --N: integer :=16;
              --M: std_logic_vector := "1100001101010000" );
              N: integer := 26;    -- number of bits (to count M clk cycles @ 100 MHz)
-  		     M: std_logic_vector := "10111110101111000010000000" );  -- 100 MHz * 0.5 sec = 50 M clock cycles
+  	     M: std_logic_vector := "10111110101111000010000000" );  -- 100 MHz * 0.5 sec = 50 M clock cycles
 
    port ( clk, reset: in std_logic;
-		  from_td_on: in std_logic;
+	  from_td_on: in std_logic;
           to_td_done: out std_logic );
 end TimerDelay;
 
@@ -29,17 +29,16 @@ begin
    end process;
 	
    -- next-state logic
-	process(r_reg, from_td_on)
-   begin
+	process(r_reg, from_td_on) begin
 		r_next <= r_reg;
-      if (from_td_on = '1') then
+      		if (from_td_on = '1') then
 			if (r_reg /= 0) then -- fix
 				r_next <= r_reg - 1; -- count down
 			else
 				r_next <= unsigned(M);
 			end if;
-      end if;
-   end process;
+      		end if;
+   	end process;
 	
 	-- fix here
    -- output logic
