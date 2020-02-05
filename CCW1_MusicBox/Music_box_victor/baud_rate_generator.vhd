@@ -14,8 +14,7 @@ entity baud_rate_generator is
 end baud_rate_generator;
 
 architecture Behavioral of baud_rate_generator is	
-	signal r_reg : unsigned(N-1 downto 0) := (others => '0');
-	signal r_next : unsigned(N-1 downto 0):= (others => '0');
+	signal r_reg, r_next : unsigned(N-1 downto 0) := (others => '0');
 begin
 -- register
 	process(clk, reset) begin
