@@ -85,7 +85,7 @@ begin
                         state_next <= wait_for_play;
 			-- octave 4
                     elsif (from_dout = X"43" or from_dout = X"44" or from_dout = X"45" or from_dout = X"46"  
-                         or from_dout = X"47" or from_dout = X"41" or from_dout = X"42" -- octave 4
+                         or from_dout = X"47" or from_dout = X"41" or from_dout = X"42"
                          -- octave 5
                          or from_dout = X"63" or from_dout = X"64" or from_dout = X"65" or from_dout = X"66" 
                          or from_dout = X"67" or from_dout = X"61" or from_dout = X"62") then
