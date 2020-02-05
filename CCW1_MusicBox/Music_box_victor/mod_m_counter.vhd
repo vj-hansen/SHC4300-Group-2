@@ -7,8 +7,8 @@ entity mod_m_counter is
 
     port ( clk, reset : in  STD_LOGIC;
            from_m_in : in STD_LOGIC_VECTOR(N-1 downto 0);
-		   to_t_in: out std_logic;
-		   q : out std_logic_vector(N-1 downto 0) );
+	   to_t_in: out std_logic;
+	   q : out std_logic_vector(N-1 downto 0) );
 end mod_m_counter;
 
 architecture arch of mod_m_counter is
