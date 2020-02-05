@@ -7,7 +7,7 @@ use ieee.numeric_std.all;
 entity TimerDelay is
    generic ( --N: integer :=16;
              --M: std_logic_vector := "1100001101010000" );
-             N: integer := 26;    -- number of bits (to count M clk cycles @ 100 MHz)
+             N: integer := 26;    -- bits needed to count to M
   	     M: std_logic_vector := "10111110101111000010000000" );  -- 100 MHz * 0.5 sec = 50 M clock cycles
 
    port ( clk, reset: in std_logic;
