@@ -6,7 +6,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity top is
     port ( rx, clk, reset, play : in  STD_LOGIC;
            loudspeaker : out  STD_LOGIC;
-	       leds : out std_logic_vector(7 downto 0) );
+	   leds : out std_logic_vector(7 downto 0) );
 end top;
 
 architecture Behavioral of top is
