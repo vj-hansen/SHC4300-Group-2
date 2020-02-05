@@ -49,7 +49,7 @@ BEGIN
 
     --send dout = X"7C = 0111 1100" -- start of tune
     	rx <= '0';		-- start bit
-      wait for 52083 ns;
+      wait for 52083 ns;	-- 1 bit / 19200 bps = 52083 ns
 		rx <= '0';		-- data bit #1 (lsb)
       wait for 52083 ns;
 		rx <= '0';		-- data bit #2
