@@ -1,4 +1,4 @@
--- Single-port RAM with asynchronous read (Listing 11.1 in FPGA Prototyping by VHDL Examples, Pong P. Chu)
+-- Single-port RAM with synchronous read (Listing 11.2 in FPGA Prototyping by VHDL Examples, Pong P. Chu)
 
 library ieee;
 use ieee.std_logic_1164.all;
