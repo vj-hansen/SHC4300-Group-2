@@ -19,7 +19,7 @@ Similar cipher: https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher
 
 position of E = ((25 - Position of M) + position of K) mod 26
 
-<img src="https://latex.codecogs.com/svg.latex?\Large&space;E_i=((25-M_i)+K_i)\textup{mod}26" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;E_i=((25-M_i)+K_i)\hspace{2mm}\textup{mod}\hspace{2mm}26" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
 
 Examples related to table shown above:
 * ((25-12) + 9) mod 26 = 22 = 'W'
