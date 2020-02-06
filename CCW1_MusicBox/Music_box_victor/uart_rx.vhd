@@ -1,4 +1,5 @@
--- Listing 7.1
+-- UART Receiver (Listing 7.1 in FPGA Prototyping by VHDL Examples, Pong P. Chu)
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
