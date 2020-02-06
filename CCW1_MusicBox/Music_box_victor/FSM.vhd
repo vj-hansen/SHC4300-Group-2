@@ -1,4 +1,5 @@
--------------------------------------------------------------------------------
+-- FSM Control Path
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
@@ -22,7 +23,7 @@ architecture arch of FSM is
     type state_type is (init, check_for_ABC, store_1, store_2, store_3, 
         wait_for_play, play_1, play_2);
     signal state_next, state_reg : state_type;
-    signal pcntr_next, pcntr_reg : unsigned (ADDR_WIDTH-1 downto 0); -- program counter (increment address register)
+    signal pcntr_next, pcntr_reg : unsigned (ADDR_WIDTH-1 downto 0); -- program counter (increment abus)
 begin
     -- state register
     process(clk, reset) begin
@@ -74,7 +75,7 @@ begin
     ----------------------------------------------------
         when store_2 =>
             to_clr_FF <= '1';
-            pcntr_next <= pcntr_reg + 1;
+            pcntr_next <= pcntr_reg+1; -- increment abus
             state_next <= store_3;
     ----------------------------------------------------
         when store_3 =>
@@ -99,7 +100,7 @@ begin
             if (from_play = '1') then
                 state_next <= play_1;
             elsif (from_rx_done_tick = '1') then
-                if (from_dout = X"28") then -- -- ASCII for '('
+                if (from_dout = X"28") then -- ASCII for '('
                     state_next <= check_for_ABC;
                 end if;
             end if;
@@ -114,7 +115,7 @@ begin
     ----------------------------------------------------
         when play_2 =>
             to_td_on <= '1';
-            pcntr_next <= pcntr_reg + 1;
+            pcntr_next <= pcntr_reg+1; -- increment abus
             state_next <= play_1;
         end case;
     end process;
