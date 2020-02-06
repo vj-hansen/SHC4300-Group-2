@@ -5,7 +5,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity uart_rx is
-   generic ( DBIT: integer:= 9;     -- # data bits
+   generic ( DBIT: integer:= 8;     -- # data bits
              SB_TICK: integer:= 16 );  -- # ticks for stop bits
   
    port( clk, reset: in std_logic;
