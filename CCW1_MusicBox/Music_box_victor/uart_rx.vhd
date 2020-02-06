@@ -1,4 +1,5 @@
--- Listing 7.1
+-- UART Receiver (Listing 7.1 in FPGA Prototyping by VHDL Examples, Pong P. Chu)
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -17,13 +18,13 @@ end uart_rx ;
 architecture arch of uart_rx is
    type state_type is (idle, start, data, stop);
    signal state_reg, state_next: state_type;
-   signal s_reg, s_next: unsigned(3 downto 0);
-   signal n_reg, n_next: unsigned(2 downto 0);
-   signal b_reg, b_next: std_logic_vector(7 downto 0);
+   signal s_reg, s_next: unsigned(3 downto 0); -- keep track of sampling ticks
+   signal n_reg, n_next: unsigned(2 downto 0); -- keep track of data bits received in the 'data' state
+   signal b_reg, b_next: std_logic_vector(7 downto 0); -- (deserializes rx) retrieved bits are shifted into and reassembled in the 'b' register
 begin
    -- FSMD state & data registers
    process(clk, reset) begin
-      if reset='1' then
+      if (reset='1') then
          state_reg <= idle;
          s_reg <= (others=>'0');
          n_reg <= (others=>'0');
@@ -47,14 +48,14 @@ begin
       case state_reg is
     ---------------------------------------
          when idle =>
-            if from_rx='0' then
+            if (from_rx='0') then -- start bit
                state_next <= start;
                s_next <= (others=>'0');
             end if;
     ---------------------------------------
          when start =>
             if (s_tick = '1') then
-               if s_reg=7 then
+               if (s_reg=7) then
                   state_next <= data;
                   s_next <= (others=>'0');
                   n_next <= (others=>'0');
@@ -65,11 +66,11 @@ begin
     ---------------------------------------
          when data =>
             if (s_tick = '1') then
-               if s_reg=15 then
+               if (s_reg=15) then
                   s_next <= (others=>'0');
-                  b_next <= from_rx & b_reg(7 downto 1) ;
-                  if n_reg=(DBIT-1) then
-                     state_next <= stop ;
+                  b_next <= from_rx & b_reg(7 downto 1); -- b = rx & (b >> 1)
+                  if (n_reg=(DBIT-1)) then
+                     state_next <= stop;
                   else
                      n_next <= n_reg + 1;
                   end if;
@@ -80,7 +81,7 @@ begin
     ---------------------------------------
          when stop =>
             if (s_tick = '1') then
-               if s_reg=(SB_TICK-1) then
+               if (s_reg=(SB_TICK-1)) then
                   state_next <= idle;
                   to_rx_done_tick <='1';
                else

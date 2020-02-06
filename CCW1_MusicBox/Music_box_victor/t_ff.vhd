@@ -1,3 +1,5 @@
+-- Toggle Flip-Flop
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use ieee.numeric_std.all; 
@@ -13,7 +15,6 @@ architecture arch of T_FF is
     signal r_reg, r_next: std_logic;
 
 begin
-    -- T FF
     process(clk, reset) begin
         if (reset='1') then
             r_reg <='0';
@@ -34,5 +35,5 @@ begin
     end process;
     
     -- output logic
-    to_ldspkr <= r_reg;
+    to_ldspkr <= r_reg; -- Output: Square wave of a note to loudspeaker/buzzer
 end arch;

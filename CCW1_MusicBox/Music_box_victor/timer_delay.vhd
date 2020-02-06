@@ -1,4 +1,5 @@
--- Timer delay counter
+-- 0.5 sec timer delay
+-- Mod-m counter (Listing 4.11 in FPGA Prototyping by VHDL Examples, Pong P. Chu)
 
 library ieee;
 use ieee.std_logic_1164.all;

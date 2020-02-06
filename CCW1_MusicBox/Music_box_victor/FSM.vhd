@@ -1,4 +1,5 @@
--------------------------------------------------------------------------------
+-- FSM Control Path
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
@@ -7,22 +8,19 @@ entity FSM is
     generic (   ADDR_WIDTH: integer := 12;
                 DATA_WIDTH: integer := 8 );
         
-    port (  clk, reset, from_play : in  STD_LOGIC;
-            from_rx_done_tick     : in  STD_LOGIC;
-            from_td_done          : in  STD_LOGIC;
-            from_dout             : in  STD_LOGIC_VECTOR (DATA_WIDTH-1 downto 0);
-            from_rdbus            : in  STD_LOGIC_VECTOR (DATA_WIDTH-1 downto 0);
-            to_abus               : out STD_LOGIC_VECTOR (ADDR_WIDTH-1 downto 0);
-            to_wr_en              : out  STD_LOGIC;
-            to_td_on              : out  STD_LOGIC;
-            to_clr_FF             : out  STD_LOGIC );
+    port (  clk, reset, from_play           : in STD_LOGIC;
+            from_rx_done_tick, from_td_done : in STD_LOGIC;
+            from_dout, from_rdbus           : in STD_LOGIC_VECTOR (DATA_WIDTH-1 downto 0);
+            to_abus                         : out STD_LOGIC_VECTOR (ADDR_WIDTH-1 downto 0);
+            to_wr_en, to_td_on              : out STD_LOGIC;
+            to_clr_FF                       : out STD_LOGIC );
 end FSM;
 
 architecture arch of FSM is
     type state_type is (init, check_for_ABC, store_1, store_2, store_3, 
-        wait_for_play, play_1, play_2);
+                        wait_for_play, play_1, play_2);
     signal state_next, state_reg : state_type;
-    signal pcntr_next, pcntr_reg : unsigned (ADDR_WIDTH-1 downto 0); -- program counter (increment address register)
+    signal pcntr_next, pcntr_reg : unsigned (ADDR_WIDTH-1 downto 0); -- program counter (increment abus)
 begin
     -- state register
     process(clk, reset) begin
@@ -57,7 +55,7 @@ begin
             to_clr_FF <= '1';
             pcntr_next <= (others => '0');
             if (from_rx_done_tick = '1') then
-                -- octave 4 (could this be done in a simpler way)
+                -- octave 4
                 if ( from_dout = X"43" or from_dout = X"44" or from_dout = X"45" or from_dout = X"46"  
                     or from_dout = X"47" or from_dout = X"41" or from_dout = X"42"
                 -- octave 5
@@ -74,7 +72,7 @@ begin
     ----------------------------------------------------
         when store_2 =>
             to_clr_FF <= '1';
-            pcntr_next <= pcntr_reg + 1;
+            pcntr_next <= pcntr_reg+1; -- increment abus
             state_next <= store_3;
     ----------------------------------------------------
         when store_3 =>
@@ -99,7 +97,7 @@ begin
             if (from_play = '1') then
                 state_next <= play_1;
             elsif (from_rx_done_tick = '1') then
-                if (from_dout = X"28") then -- -- ASCII for '('
+                if (from_dout = X"28") then -- ASCII for '('
                     state_next <= check_for_ABC;
                 end if;
             end if;
@@ -114,7 +112,7 @@ begin
     ----------------------------------------------------
         when play_2 =>
             to_td_on <= '1';
-            pcntr_next <= pcntr_reg + 1;
+            pcntr_next <= pcntr_reg+1; -- increment abus
             state_next <= play_1;
         end case;
     end process;
