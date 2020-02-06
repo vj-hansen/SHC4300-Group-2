@@ -31,4 +31,4 @@ Examples related to table shown above:
 
 
 ### Decryption
-position of M =
+position of M = ((25 + position of K) - position of C) mod 26
