@@ -8,20 +8,17 @@ entity FSM is
     generic (   ADDR_WIDTH: integer := 12;
                 DATA_WIDTH: integer := 8 );
         
-    port (  clk, reset, from_play : in  STD_LOGIC;
-            from_rx_done_tick     : in  STD_LOGIC;
-            from_td_done          : in  STD_LOGIC;
-            from_dout             : in  STD_LOGIC_VECTOR (DATA_WIDTH-1 downto 0);
-            from_rdbus            : in  STD_LOGIC_VECTOR (DATA_WIDTH-1 downto 0);
-            to_abus               : out STD_LOGIC_VECTOR (ADDR_WIDTH-1 downto 0);
-            to_wr_en              : out  STD_LOGIC;
-            to_td_on              : out  STD_LOGIC;
-            to_clr_FF             : out  STD_LOGIC );
+    port (  clk, reset, from_play           : in  STD_LOGIC;
+            from_rx_done_tick, from_td_done : in  STD_LOGIC;
+            from_dout, from_rdbus           : in  STD_LOGIC_VECTOR (DATA_WIDTH-1 downto 0);
+            to_abus                         : out STD_LOGIC_VECTOR (ADDR_WIDTH-1 downto 0);
+            to_wr_en, to_td_on              : out  STD_LOGIC;
+            to_clr_FF                       : out  STD_LOGIC );
 end FSM;
 
 architecture arch of FSM is
     type state_type is (init, check_for_ABC, store_1, store_2, store_3, 
-        wait_for_play, play_1, play_2);
+                        wait_for_play, play_1, play_2);
     signal state_next, state_reg : state_type;
     signal pcntr_next, pcntr_reg : unsigned (ADDR_WIDTH-1 downto 0); -- program counter (increment abus)
 begin
