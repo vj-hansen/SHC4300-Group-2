@@ -1,0 +1,122 @@
+\documentclass{beamer}
+ 
+\usepackage[utf8]{inputenc}
+\usepackage{verbatim}
+\usepackage{listings}
+\usetheme{Madrid}
+ 
+%Information to be included in the title page:
+\title{Compulsory Assignment: Music Box}
+\author[Victor,Devidas,Leila,Biplav]{Victor J Hansen\inst{1}
+\and Devidas Kazokas\inst{2}
+\and Leila Mozaffari\inst{3}
+\and Biplav Karna\inst{4}
+}
+\institute{USN Kongsberg}
+\date{2020}
+
+\begin{document}
+ 
+\frame{\titlepage}
+ 
+\begin{frame}
+\frametitle{Overview}
+\tableofcontents
+\end{frame}
+
+\section{Problem Description}
+\begin{frame}
+\frametitle{Music Box}
+\includegraphics[width=\textwidth, height=0.8\textheight] {../diagram/problem_statement.png}
+\end{frame}
+ 
+\begin{frame}
+\frametitle{Music Box:Assumptions}
+We have assumed below things for design of the music box.
+\begin{itemize}
+\item Only major notes of octaves 4 and 5 are taken into consideration.
+\item The duration of playing note is fixed to 0.5 sec.
+\item The user has to start music with '(' and end with ')'.
+\item Repeated '(' and ')' will be ignored.
+\item Only one music can be stored.
+\item The user cannot provide new music when playing.
+\item The user can play stored music multiple times.
+\end {itemize}
+\end{frame}
+
+\section{FSM Block Diagram}
+\begin{frame}
+\frametitle{FSM Block Diagram}
+\includegraphics[width=\textwidth,height=0.8\textheight] {../diagram/ccw_music_player-fsm_block_diagram.jpg}
+\end{frame}
+ 
+\section{ASMD Diagram}
+\begin{frame}
+\frametitle{ASMD Diagram}
+\includegraphics[width=\textwidth,height=0.8\textheight] {../diagram/ccw_music_player-asmd_chart.jpg}
+\end{frame}
+
+\section{Code Walkthrough}
+\subsection{VHDL Design Walkthrough}
+\begin{frame}
+\frametitle{VHDL Design Walkthrough}
+VHDL Design Walkthrough: Hierarchial 
+\begin{itemize}
+
+\item top.vhd
+\begin {itemize}
+\item uart\_rx.vhd
+\begin {itemize}
+\item baud\_rate\_generator.vhd
+\end {itemize}
+\item FSM.vhd
+\item RAM.vhd
+\item code\_converter.vhd
+\item mod\_m\_cntr.vhd
+\item t\_ff.vhd
+\item timer\_delay.vhd
+\end {itemize}
+\end {itemize}
+\end{frame}
+
+\subsection{Vivado Schematic Diagram}
+\begin{frame}
+\frametitle{Vivado Schematic Diagram}
+\includegraphics[width=\textwidth, height=0.8\textheight] {../diagram/schematic_diagram.png}
+\end{frame}
+
+\subsection{FSM Vhdl Implementation}
+\begin{large}
+Snippet of FSM.vhd
+\end{large}
+\begin{tiny}
+\lstinputlisting[language=Vhdl,breaklines=true]{../FSM.vhd}
+\end{tiny}
+
+\break
+
+\section{Simulation}
+\subsection{Simulation:TestBench Snippet}
+\begin{large}
+Snippet of testbench.vhd
+\end{large}
+\begin{tiny}
+\lstinputlisting[language=Vhdl,breaklines=true]{../testbench.vhd}
+\end{tiny}
+
+\break
+
+\subsection{Output}
+\begin{frame}
+\frametitle{Output}
+%\includegraphics[width=\textwidth,height=0.8\textheight] {../diagrams/simulation.png}
+\end{frame}
+
+\section{Thanks}
+\begin{frame}
+\frametitle{Thanks}
+\centering \Huge
+  \emph{Thank You}
+\end{frame}
+
+\end{document}
