@@ -6,10 +6,9 @@ use ieee.numeric_std.all;
 
 entity TimerDelay is
     generic (   --N: integer :=16;
-                --M: std_logic_vector := "1100001101010000" ); -- for simulation (50K clock cycles)
+                --M: integer := 50e3 ); -- for simulation (50K clock cycles)
                 N: integer := 26;    -- bits needed to count to M
-                M: std_logic_vector := "10111110101111000010000000" );  -- switch to integer
-                -- 100 MHz * 0.5 sec = 50 M clock cycles
+                M: integer := 50e6 );  -- 100 MHz * 0.5 sec = 50 M clock cycles
     
     port (  clk, reset: in std_logic;
             from_td_on: in std_logic;
@@ -30,17 +29,10 @@ begin
     end process;
     
     -- next-state logic
-    process(r_reg, from_td_on) begin
-        r_next <= r_reg;
-        if (from_td_on = '1') then
-            if (r_reg /= 0) then -- fix
-                r_next <= r_reg - 1; -- count down
-            else
-                r_next <= unsigned(M);
-            end if;
-        end if;
-    end process;
+    r_next <=   (others => '0') when from_td_on = '0' else
+                (others => '0') when r_reg = (M) else
+                r_reg+1;
     
     -- output logic
-    to_td_done <= '1' when r_reg=1 else '0';
+    to_td_done <= '1' when r_reg = (M) else '0';
 end arch;
