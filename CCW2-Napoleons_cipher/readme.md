@@ -16,8 +16,6 @@ http://www.satya-weblog.com/tools/find-alphabets.php
 
 Similar cipher: https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher
 
-https://en.wikipedia.org/wiki/Tabula_recta
-
 
 position of E = ((25 - Position of M) + position of K) mod 26
 
