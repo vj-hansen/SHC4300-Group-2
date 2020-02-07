@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{verbatim}
 \usepackage{listings}
+\usepackage{hyperref}
 \usetheme{Madrid}
  
 %Information to be included in the title page:
@@ -30,6 +31,7 @@
 \includegraphics[width=\textwidth, height=0.8\textheight] {../diagram/problem_statement.png}
 \end{frame}
  
+\subsection{Assumptions}
 \begin{frame}
 \frametitle{Music Box:Assumptions}
 We have assumed below things for design of the music box.
@@ -95,16 +97,30 @@ VHDL Design Walkthrough: Hierarchial
 \section{Simulation}
 \subsection{Simulation:TestBench Snippet}
 \begin{tiny}
-\lstinputlisting[language=Vhdl,breaklines=true,title={Snippet of testbench,vhd},frame=shadowbox]{../testbench.vhd}
+\lstinputlisting[language=Vhdl,breaklines=true,title={Snippet of testbench.vhd},frame=shadowbox]{../testbench.vhd}
 \end{tiny}
 
 \break
 
-\subsection{Output}
+\subsection{Simulation: Vivado Screenshot}
 \begin{frame}
-\frametitle{Output}
-%\includegraphics[width=\textwidth,height=0.8\textheight] {../diagrams/simulation.png}
+\frametitle{Simulation: Vivado Screenshot}
+\includegraphics[width=\textwidth,height=0.8\textheight] {../diagram/musicbox_testbench.PNG}
 \end{frame}
+
+
+\section{Video of Project}
+\begin{frame}
+\frametitle{Video of Project}
+A video of the project on basys-3 board is uploaded. Please click the link 
+\href{https://drive.google.com/file/d/1TnwBi27fA0xLse6_bEnivC6h0F47zUzk/view?usp=sharing}{\beamerbutton{Watch Full Video} }
+\begin{figure}
+\includegraphics[width=0.7\textwidth,height=0.6\textheight] {../diagram/video_snapshot.png}
+\caption{Video Snapshot}
+\end{figure}
+\end{frame}
+
+
 
 \section{Thanks}
 \begin{frame}
