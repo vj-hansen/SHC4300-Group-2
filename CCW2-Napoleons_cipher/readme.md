@@ -19,9 +19,9 @@ Similar cipher: https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher
 
 
 ### Encryption
-position of C = ((25 - Position of M) + position of K) mod 26
+position of C = ((25 - Position of M + position of K) mod 26
 
-<img src="https://latex.codecogs.com/svg.latex?\Large&space;C_i=((25-M_i)+K_i)\hspace{2mm}\textup{mod}\hspace{2mm}26" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;C_i=(25-M_i+K_i)\hspace{2mm}\textup{mod}\hspace{2mm}26" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
 
 Examples related to table shown above:
 * ((25-12) + 9) mod 26 = 22 = 'W'
@@ -31,4 +31,6 @@ Examples related to table shown above:
 
 
 ### Decryption
-position of M = ((25 + position of K) - position of C) mod 26
+position of M = ((25 + position of K - position of C) mod 26
+
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;M_i=(25+K_i-C_i)\hspace{2mm}\textup{mod}\hspace{2mm}26" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
