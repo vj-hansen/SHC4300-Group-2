@@ -6,6 +6,11 @@ Let A-Z be the numbers 0–25
 Similar cipher: https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher
 
 
+The key = "Jean-Jacques Rousseau" will be hardcoded in the FPGA, i.e. the user can not change the key, only the message.
+The message and the ciphertext will be sent through RS232. We need a UART receiver and transmitter. It is possible to encrypt a message into ciphertext, and decrypt the ciphertext into the original message.
+
+
+
 * Message: Make every day count
 * Key: Jean Jacqu esR ousse
 * Encryption: wdpi eexyv ars lfxek
