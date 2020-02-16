@@ -50,10 +50,9 @@ begin
             -- Initial state
             when init =>
                 to_clr_FF <= '1';
-                
                 if (from_rx_done_tick = '1') then
-                    if (from_dout = "01111100") then --from_dout = '|' (ascii: vertical bar, bin: 01111100)
-                        state_next <= check_for_ABC;
+                    if (from_dout = "01111100") then -- if from_dout = '|' (ascii: vertical bar, bin: 01111100)
+                        state_next <= check_for_ABC; -- next state
                     else
                         state_next <= init;
                     end if;
@@ -65,10 +64,9 @@ begin
             when check_for_ABC =>
                 to_clr_FF <= '1';
                 abus <= (others =>'0');
-                
                 if (from_rx_done_tick = '1' ) then
-                    if (from_dout = valid_code) then
-                        state_next <= store_1;
+                    if (from_dout = valid_code) then -- if valid ASCII code
+                        state_next <= store_1; -- next state
                     else
                         state_next <= check_for_ABC;
                     end if;
@@ -80,22 +78,21 @@ begin
             when store_1 =>
                 to_clr_FF <= '1';
                 to_wr_en <= '1';
-                state_next <= store_2;
+                state_next <= store_2; -- next state
             ------------------------------------------------------------
             -- Second store state
             when store_2 =>
                 to_clr_FF <= '1';
-                abus <= abus +1;
-                state_next <= store_3;
+                abus <= abus+1;
+                state_next <= store_3; -- next state
             ------------------------------------------------------------                  
             -- Third store stage
             when store_3 =>
-                to_clr_FF <= '1';
-                
+                to_clr_FF <= '1'; 
                 if (from_rx_done_tick = '1' ) then
-                    if (from_dout = "01011101") then -- from_dout = ']' (ascii: closing bracket, bin: 01011101)
-                        to_wr_en <= '1';
-                        state_next <= wait_for_play;
+                    if (from_dout = "01011101") then -- if from_dout = ']' (ascii: closing bracket, bin: 01011101)
+                        to_wr_en <= '1'; -- ABC codes have been received and stored
+                        state_next <= wait_for_play; -- next state
                     elsif (from_dout = valid_code) then
                         state_next <= store_1;
                     else
@@ -109,9 +106,8 @@ begin
             when wait_for_play =>
                 to_clr_FF <= '1';
                 abus <= (others =>'0');
-                
                 if (play = '1') then
-                    state_next <= play_1;
+                    state_next <= play_1; -- go on to play note
                 elsif (from_rx_done_tick = '1') then
                     if (from_dout = "01111100") then --from_dout = '|' (ascii: vertical bar, bin: 01111100)
                         state_next <= check_for_ABC;
@@ -125,7 +121,6 @@ begin
             -- Play 1
             when play_1 =>
                 to_td_on <= '1';
-                
                 if (from_rdbus = "01011101") then -- ram_data = ']' (ascii: closing bracket, bin: 01011101)
                     state_next <= wait_for_play;
                 elsif (from_td_done = '1') then
@@ -137,24 +132,21 @@ begin
             -- Play 2
             when play_2 =>
                 to_td_on <= '1';
-                abus <= abus +1;
+                abus <= abus+1;
                 state_next <= play_1;
             ------------------------------------------------------------         
-
             -- Output
             to_abus <= std_logic_vector(abus);
         end case;
     end process;
 
-
-    -- Dispaly ASCII from UART on Basys3 LEDs
+    -- Display ASCII from UART on Basys3 LEDs
     process(from_rx_done_tick) begin
         if (from_rx_done_tick = '1') then
             to_led <= from_dout;
         end if;
     end process;  
-
-
+------------------------------------------------------------  
     with from_dout select
         valid_code <=   
             -- Octave 4
@@ -177,5 +169,4 @@ begin
             
             -- No tone
             "00000000"  when others;   -- No tone when invalid ascii character
-
 end arch;
