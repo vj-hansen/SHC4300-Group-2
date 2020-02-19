@@ -1,9 +1,4 @@
-
-Let A-Z be the numbers 0–25
-
-* http://www.satya-weblog.com/tools/find-alphabets.php
-
-Similar cipher: https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher
+We use lower-case ASCII, (a=97, z=122). 
 
 
 The key = "Jean-Jacques Rousseau" will be hardcoded in the FPGA, i.e. the user can not change the key, only the message.
@@ -16,26 +11,22 @@ The message and the ciphertext will be sent through RS232. We need a UART receiv
 * Encryption: wdpi eexyv ars lfxek
 
 
-| Message (M):     | M | A | K | E | = | 12 | 0 | 10 | 4   |
-|---               |---|---|---|---|---|----|---|----|-----|
-| Key (K):         | J | E | A | N | = | 9  | 4 | 0  | 13  | 
-| Ciphertext (C):  | W | D | P | I | = | 22 | 3 | 15 | 8   |
+| Message (M):     | m | a | k | e | = | 109 | 97  | 107 | 101 |
+|---               |---|---|---|---|---|-----|-----|-----|-----|
+| Key (K):         | j | e | a | n | = | 106 | 101 | 97  | 110 | 
+| Ciphertext (C):  | w | d | p | i | = | 119 | 100 | 112 | 105 |
 
 
 
 ### Encryption
-position of C = ((25 - Position of M + position of K) mod 26
+position of C = ((25 - Position of M + position of K) mod 26) + 'a=97' 
 
 <img src="https://latex.codecogs.com/svg.latex?\Large&space;C_i=(25-M_i+K_i)\hspace{2mm}\textup{mod}\hspace{2mm}26" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
 
-Examples related to table shown above:
-* ((25-12) + 9) mod 26 = 22 = 'W'
-* ((25-0) + 4) mod 26 = 3 = 'D'
-* ((25-10) + 0) mod 26 = 15 = 'P'
-* ((25-4) + 13) mod 26 = 8 = 'I'
-
+Example related to table shown above:
+* ((25-109 + 106) mod 26) + 97 = 119 = 'w'
 
 ### Decryption
-position of M = ((25 + position of K - position of C) mod 26
+position of M = ((25 + position of K - position of C) mod 26) + 97
 
 <img src="https://latex.codecogs.com/svg.latex?\Large&space;M_i=(25+K_i-C_i)\hspace{2mm}\textup{mod}\hspace{2mm}26" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
