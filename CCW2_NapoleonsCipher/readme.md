@@ -18,6 +18,9 @@ The message and the ciphertext will be sent through RS232. We need a UART receiv
 
 
 
+'z' - 'a' = 122-97=25
+
+
 ### Encryption
 position of C = ((25 - Position of M + position of K) mod 26) + 'a=97' 
 
