@@ -21,7 +21,7 @@ The message and the ciphertext will be sent through RS232. We need a UART receiv
 ### Encryption
 position of C = ((25 - Position of M + position of K) mod 26) + 'a=97' 
 
-<img src="https://latex.codecogs.com/svg.latex?\Large&space;C_i=(25-M_i+K_i)\hspace{2mm}\textup{mod}\hspace{2mm}26" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;C_i=((25-M_i+K_i)\hspace{2mm}\textup{mod}\hspace{2mm}26)+97" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
 
 Example related to table shown above:
 * ((25-109 + 106) mod 26) + 97 = 119 = 'w'
@@ -29,4 +29,4 @@ Example related to table shown above:
 ### Decryption
 position of M = ((25 + position of K - position of C) mod 26) + 97
 
-<img src="https://latex.codecogs.com/svg.latex?\Large&space;M_i=(25+K_i-C_i)\hspace{2mm}\textup{mod}\hspace{2mm}26" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;M_i=((25+K_i-C_i)\hspace{2mm}\textup{mod}\hspace{2mm}26)+97" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
