@@ -1,6 +1,10 @@
+-- not connected to top.vhd
+
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+
 entity key_block is
    port(
       nxt,clk,clr: in std_logic;
@@ -20,8 +24,7 @@ signal rom_addr_cnt: unsigned ( 4 downto 0):= (others => '0');
 begin
 rom: entity work.key_rom(key_rom_arch) port map( data=>rom_data,addr=>rom_addr);
 
-process (clk)
-begin
+process (clk) begin
     if ( rising_edge(clk) ) then
         if clr = '1' then
             rom_addr_cnt <= (others => '0');
