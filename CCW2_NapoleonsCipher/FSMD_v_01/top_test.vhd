@@ -17,7 +17,7 @@ ARCHITECTURE behavior OF top_tb IS
     
     constant clk_period : time := 10 ns;
     constant bit_period : time := 52083ns; -- time for 1 bit.. 1bit/19200bps = 52.08 us
-    constant ascii_m: std_logic_vector(7 downto 0) := X"6d"; -- m=109
+    constant ascii_m: std_logic_vector(7 downto 0) := X"6d"; --  ascii: 'm' (dec=109)
     constant ascii_d: std_logic_vector(7 downto 0) := X"3a"; -- dummy
 BEGIN
     uut: top PORT MAP 
