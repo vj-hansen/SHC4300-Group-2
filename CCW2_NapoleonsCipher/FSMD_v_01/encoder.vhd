@@ -17,7 +17,7 @@ begin
     process(msg_in) begin
         if (msg_in>=X"61" or msg_in<=X"7a") then 
                 m_i <= unsigned(msg_in);
-                c_i <= 1+((25-m_i+unsigned(k_i)) mod 26)+97;
+                c_i <= ((25-m_i+unsigned(k_i)) mod 26)+97;
             end if;
     end process;
     cipher_out <= std_logic_vector(c_i);
