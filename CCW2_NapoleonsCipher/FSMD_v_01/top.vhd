@@ -12,7 +12,7 @@ entity top is
 architecture Behavioral of top is
     signal tick, rx_done_tick, wr_en : std_logic;
     signal tx_done_tick, tx_start : std_logic; 
-    signal dout, din : std_logic_vector(7 downto 0);
+    signal dout, din_tx : std_logic_vector(7 downto 0);
     signal k_n : std_logic_vector(7 downto 0);
     signal abus : std_logic_vector(11 downto 0);
     signal ram_data : std_logic_vector(7 downto 0);
@@ -35,14 +35,14 @@ begin
         port map ( clk=>clk, we=>wr_en, addr=>abus, wrbus=>dout, rdbus=>ram_data );
 -------------------------------------------------------------------	  
     encoder_unit: entity work.encoder(arch)
-        port map ( msg_in=>ram_data, cipher_out=>din );
+        port map ( msg_in=>ram_data, cipher_out=>din_tx );
 -------------------------------------------------------------------	  
     decoder_unit: entity work.decoder(arch)
-        port map ( cipher_in=>ram_data, msg_out=>din );
+        port map ( cipher_in=>ram_data, msg_out=>din_tx );
 -------------------------------------------------------------------	 
     uart_tx_unit: entity work.uart_tx(arch)
         port map ( clk=>clk, reset=>reset, tx_start=>tx_start, s_tick=>tick,
-                   din=>din, tx_done_tick=>tx_done_tick, tx=>tx );
+                   din=>din_tx, tx_done_tick=>tx_done_tick, tx=>tx );
 -------------------------------------------------------------------	
     --key_ROM_unit: entity work.key_block(arch)
      --   port map ( clk=>clk, nxt=>nxt, clr=>clr, data=>k_n);
