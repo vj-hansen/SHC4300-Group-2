@@ -35,10 +35,10 @@ begin
         port map ( clk=>clk, we=>wr_en, addr=>abus, wrbus=>dout, rdbus=>ram_data );
 -------------------------------------------------------------------	  
     encoder_unit: entity work.encoder(arch)
-        port map ( msg_in=>ram_data, cipher_out=>c_n );
+        port map ( msg_in=>ram_data, cipher_out=>din );
 -------------------------------------------------------------------	  
     decoder_unit: entity work.decoder(arch)
-        port map ( cipher_in=>ram_data, msg_out=>m_n );
+        port map ( cipher_in=>ram_data, msg_out=>din );
 -------------------------------------------------------------------	 
     uart_tx_unit: entity work.uart_tx(arch)
         port map ( clk=>clk, reset=>reset, tx_start=>tx_start, s_tick=>tick,
