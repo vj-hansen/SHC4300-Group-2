@@ -9,13 +9,11 @@ END top_tb;
 ARCHITECTURE behavior OF top_tb IS 
     COMPONENT top 
         port (  rx, clk, reset, mode : in std_logic;
-                tx : out std_logic;
-                leds : out std_logic_vector(7 downto 0) );
+                tx : out std_logic);
     END COMPONENT;
     
     signal clk, reset, mode : std_logic;            --:= '0';
     signal rx, tx           : std_logic;
-    signal leds             : std_logic_vector(7 downto 0);
     
     constant clk_period     : time := 10 ns;
     constant bit_period     : time := 52083ns; -- time for 1 bit.. 1bit/19200bps = 52.08 us
@@ -35,8 +33,7 @@ BEGIN
         tx => tx,
         clk => clk,
         reset => reset,
-        mode => mode,
-        leds => leds );
+        mode => mode);
         
     
     clk_process: process begin
