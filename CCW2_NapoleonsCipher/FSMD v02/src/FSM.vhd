@@ -65,6 +65,7 @@ begin
             pcntr_next <= (others => '0');  -- clear adress counter
             if (from_rx_done_tick = '1') then
                 if (from_rx_bus>=X"61" or from_rx_bus<=X"7a") then -- go to store_1 if ascii 'a' to 'z'
+                    -- shouldn't it be:  (from_rx_bus>=X"61" AND from_rx_bus<=X"7a") ?
                     state_next <= store_1;
                 else
                     state_next <= check_for_ascii;    
