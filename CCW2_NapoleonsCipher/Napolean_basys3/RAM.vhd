@@ -21,7 +21,7 @@ architecture arch of RAM is
    type ram_type is array (2**ADDR_WIDTH-1 downto 0)
     	of std_logic_vector (DATA_WIDTH-1 downto 0);
    signal ram_space: ram_type;
-   signal addr_reg: std_logic_vector(ADDR_WIDTH-1 downto 0);
+   --signal addr_reg: std_logic_vector(ADDR_WIDTH-1 downto 0);
 
 ----------------------------------------------------------------------------------
 begin
@@ -30,8 +30,8 @@ begin
           if (from_wr = '1') then
             ram_space(to_integer(unsigned(from_abus))) <= from_ram_bus; -- write
           end if;
-          addr_reg <= from_abus;
+          --addr_reg <= from_abus;
       	end if;
   end process;
-  to_tx_bus <= ram_space(to_integer(unsigned(addr_reg))); -- read
+  to_tx_bus <= ram_space(to_integer(unsigned(from_abus))); -- read
 end arch;

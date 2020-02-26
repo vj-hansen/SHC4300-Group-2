@@ -46,7 +46,7 @@ end FSMDISPANDRAM;
 
 architecture arch of FSMDISPANDRAM is
     type state_type is (init,check_for_ascii, store_1, store_2,
-                        transmit_1, transmit_2,transmit_all,transmit_ram1,transmit_ram2);
+                        transmit_1, transmit_2,transmit_all,transmit_ram1,transmit_ram2,transmit_cr1,transmit_cr2);
     signal state_next, state_reg : state_type;
     signal pcntr_next : unsigned (ADDR_WIDTH-1 downto 0); -- program counter (increment abus)
     signal pcntr_reg : unsigned (ADDR_WIDTH-1 downto 0) := (others => '0');
@@ -71,8 +71,6 @@ begin
         pcntr_next <= pcntr_reg; -- address counter
         to_clr_key <= '0';
         to_inc_key <= '0';
-        to_enc <= '0';
-        to_dec <= '0';
         to_tx_start_tick <= '0';
         to_wr <= '0'; 
         case state_reg is
@@ -85,7 +83,7 @@ begin
         when check_for_ascii =>
             ram_message <= '0';
             if (from_rx_done_tick = '1') then
-                if (from_rx_bus>=X"61" or from_rx_bus<=X"7a") then -- go to store_1 if ascii 'a' to 'z'
+                if ((from_rx_bus>=X"61" and from_rx_bus<=X"7a") or  from_rx_bus = X"0A" or from_rx_bus = X"0D") then -- go to store_1 if ascii 'a' to 'z'
 		            state_next <= store_1;
                 else
                     state_next <= check_for_ascii;    
@@ -96,14 +94,8 @@ begin
     ----------------------------------------------------
         when store_1 =>
             ram_message <= '0';
-	    to_wr <= '1';
-            if (from_mode = '0') then
-                to_enc <= '1';
-                state_next <= store_2;
-            else
-                to_dec <= '1';
-                state_next <= store_2;
-            end if; 
+	        to_wr <= '1';
+            state_next <= store_2;
             
     ----------------------------------------------------
         when store_2 =>
@@ -120,7 +112,7 @@ begin
             ram_message <= '0';
             to_tx_start_tick <= '0';
             if (from_tx_done_tick = '1') then
-		      if (from_rx_bus = X"0D") then
+		      if (from_rx_bus = X"0D" or from_rx_bus = X"0A") then
 			        state_next <= transmit_all;
 		      else
 			    state_next <= check_for_ascii;
@@ -144,8 +136,8 @@ begin
 		  to_tx_start_tick <= '0';
             if (from_tx_done_tick = '1') then    
 		    	    if (ram_bus = X"0A" or ram_bus = X"0D" ) then 
-		    	         pcntr_next <= (others => '0');                                    -- if enter is pressed and mode is selected to encode
-			             state_next <= init;
+		    	         pcntr_next <= (others => '0');                                    
+			             state_next <= transmit_cr1;
 			        else
 			              state_next <= transmit_ram1;
 			              pcntr_next <= pcntr_reg + 1;
@@ -154,14 +146,27 @@ begin
              else
                 state_next <= transmit_ram2;
 		      end if;
+		 when transmit_cr1=>
+		    ram_message <= '0';
+            to_tx_start_tick <= '1';
+            state_next <= transmit_cr2;
+		 when transmit_cr2=>
+		    ram_message <= '0';
+            to_tx_start_tick <= '0';
+		  if (from_tx_done_tick = '1') then                                      
+			     state_next <= init;
+             else
+                state_next <= transmit_cr2;
+		      end if;
         end case;
     end process;
-
+    to_enc <= not from_mode;
+    to_dec <= from_mode;
     to_abus <= std_logic_vector(pcntr_reg);
---    to_tx_bus <= X"0A" when from_rx_bus = X"0D" else
---                 from_rx_bus when ram_message = '0' else
---	             ram_bus;  
-    to_tx_bus <= from_rx_bus when ram_message = '0' else
-	             ram_bus;    	               
+    to_tx_bus <= X"0A" when ( from_rx_bus = X"0D" and ram_message= '0' ) else
+                 from_rx_bus when ram_message = '0' else
+	             ram_bus;  
+--    to_tx_bus <= from_rx_bus when ram_message = '0' else
+--	             ram_bus;    	               
     -- output
 end arch;
