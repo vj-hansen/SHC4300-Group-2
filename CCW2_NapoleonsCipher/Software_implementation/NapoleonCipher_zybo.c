@@ -27,7 +27,7 @@
 * @param	Original text and Cipher text
 * @return	Cipher text
 ****************************************************************************/
-void encode(const char* plainText,char* encryptText) {
+void encode(const char* plainText, char* encryptText) {
     char key[CIPHER_KEY_LEN] = CIPHER_KEY;
     int textCounter, keyCounter = 0;
     for (textCounter = 0; plainText[textCounter] != '\0'; textCounter++) {
@@ -35,7 +35,7 @@ void encode(const char* plainText,char* encryptText) {
        	ciph = ciph + 'a';  // convert into ASCII, A = 65, a = '97'
 	encryptText[textCounter] = (char)ciph;
 	keyCounter++;
-	keyCounter = (keyCounter > 22) ? 0 : keyCounter; // keyCounter = 0 if keyCounter > 22, else keyCounter = keyCounter
+	keyCounter = (keyCounter > 22) ? 0 : keyCounter; // keyCounter = 0 if keyCounter > key length, else keyCounter = keyCounter
     }
     encryptText[textCounter] = '\0';
     return;
