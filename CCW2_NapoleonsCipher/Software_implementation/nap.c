@@ -29,8 +29,7 @@ void encode(const char* plainText, char* encryptText) {
     char key[strlen(CIPHER_KEY_2)] = CIPHER_KEY_2;
     int textCounter, keyCounter = 0;
     for (textCounter = 0; plainText[textCounter] != '\0'; textCounter++) {
-        int ciph = ((25-plainText[textCounter]) + key[keyCounter]) % 26;
-        ciph = ciph + 'a';  // convert into ASCII, A = 65, a = '97'
+        int ciph = ( (25-plainText[textCounter]+key[keyCounter]) % 26)+97; // 'a' = 97
         encryptText[textCounter] = (char)ciph;
         keyCounter++;
         keyCounter = (keyCounter > strlen(CIPHER_KEY_2)-1) ? 0 : keyCounter; // keyCounter = 0 if keyCounter > key length, else keyCounter = keyCounter
@@ -48,8 +47,7 @@ void decode(const char* encryptedText, char* plainText) {
     char key[strlen(CIPHER_KEY_2)] = CIPHER_KEY_2;
     int textCounter, keyCounter = 0;
     for (textCounter = 0; encryptedText[textCounter] != '\0'; textCounter++) {
-        int ciph = ((25 + key[keyCounter] - encryptedText[textCounter]) ) % 26;
-        ciph = ciph + 'a';  // convert into ASCII, A = 65, a = '97'
+        int ciph = ( (25 + key[keyCounter] - encryptedText[textCounter]) % 26)+97;
         plainText[textCounter] = (char)ciph;
         keyCounter++;
         keyCounter = (keyCounter > strlen(CIPHER_KEY_2)-1) ? 0: keyCounter;
@@ -75,7 +73,7 @@ int main() {
         }
         if (selection == 'q') {
             printf("\nFinished...\n");
-        return 0;
+            return 0;
         }
         if (selection == 'e') { // - Encode
             printf("\r\nEnter the plain text:\r\n");
@@ -100,5 +98,4 @@ int main() {
         selection = '\0';
     }
     return 0;
-    //cleanup_platform();
 }
