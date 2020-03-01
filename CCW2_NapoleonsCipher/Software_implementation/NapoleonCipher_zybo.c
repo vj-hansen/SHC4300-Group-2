@@ -54,7 +54,7 @@ void decode(const char* encryptedText, char* plainText) {
         ciph = ciph + 'a';  // convert into ASCII, A = 65, a = '97'
 	plainText[textCounter] = (char)ciph;
 	keyCounter++;
-	keyCounter = keyCounter > 22 ? 0: keyCounter;
+	keyCounter = (keyCounter > 22) ? 0 : keyCounter;
     }
     plainText[textCounter] = '\0';
     return;
@@ -62,9 +62,7 @@ void decode(const char* encryptedText, char* plainText) {
 
 /***************************************************************************
 * Main function to either decode or encode text
-*
 * @param	None
-*
 * @return	None
 ****************************************************************************/
 int main() {
@@ -73,7 +71,7 @@ int main() {
     char selection = '\0';
     while (1) {
 	    while (selection != 'e' && selection != 'd' && selection != 'q') {
-		printf("\n****Napoleon Cipher****\nPress 'e' for encrypt or 'd' for decrypt , 'q' for quit:"); // this prints twice after first selection
+		printf("\n****Napoleon Cipher****\nPress 'e' for encrypt or 'd' for decrypt, 'q' for quit: "); // this prints twice after first selection
 		scanf("%c", &selection);
 	    }
 	    if (selection == 'q') {
