@@ -6,12 +6,12 @@
 * This file contains the implementation of the Napoleon Cipher.
 *
 * Usage:
-* 	0) Connect to Zybo to computer via USB
-* 	1) Xilinx > Program FPGA > Program
-* 	2) Open the SDK Terminal in Xilinx SDK
+* 	0) Start Xilinx SDK. Connect Zybo to computer via USB.
+* 	1) Go to Xilinx > Program FPGA > Program
+* 	2) Open SDK Terminal
 * 	2.1) Press '+' > Select COM-port > Keep default values under 'Advanced Settings' > ok
 * 	3) Right-click on 'Napoleon_Cipher'-folder > Run as > 1 Launch on Hardware (system debugger)
-* 	4) SDK Terminal > encode/decode your message
+* 	4) Go to SDK Terminal > encode/decode your message
 ****************************************************************************/
 
 #include <stdlib.h>
@@ -22,13 +22,9 @@
 #define CIPHER_KEY "victordeivyleilabiplav"
 #define CIPHER_KEY_LEN 23   // should find a better solution for this, cant use strlen() though...
 
-
-
 /***************************************************************************
 * Return the encrypted text generated with the help of the key
-*
 * @param	Original text and Cipher text
-*
 * @return	Cipher text
 ****************************************************************************/
 void encode(const char* plainText,char* encryptText) {
@@ -47,9 +43,7 @@ void encode(const char* plainText,char* encryptText) {
 
 /***************************************************************************
 * Decrypt the encrypted text and return the original text
-*
 * @param	Cipher text and original text
-*
 * @return	Original text
 ****************************************************************************/
 void decode(const char* encryptedText, char* plainText) {
@@ -79,7 +73,7 @@ int main() {
     char selection = '\0';
     while (1) {
 	    while (selection != 'e' && selection != 'd' && selection != 'q') {
-		printf("\n****Napoleon Cipher****\nPress 'e' for encrypt or 'd' for decrypt , 'q' for quit:");
+		printf("\n****Napoleon Cipher****\nPress 'e' for encrypt or 'd' for decrypt , 'q' for quit:"); // this prints twice after first selection
 		scanf("%c", &selection);
 	    }
 	    if (selection == 'q') {
