@@ -33,7 +33,7 @@ void encode(const char* plainText, char* encryptText) {
         ciph = ciph + 'a';  // convert into ASCII, A = 65, a = '97'
         encryptText[textCounter] = (char)ciph;
         keyCounter++;
-        keyCounter = (keyCounter > 22) ? 0 : keyCounter; // keyCounter = 0 if keyCounter > 22, else keyCounter = keyCounter
+        keyCounter = (keyCounter > strlen(CIPHER_KEY_2)-1) ? 0 : keyCounter; // keyCounter = 0 if keyCounter > key length, else keyCounter = keyCounter
     }
     encryptText[textCounter] = '\0';
     return;
@@ -52,7 +52,7 @@ void decode(const char* encryptedText, char* plainText) {
         ciph = ciph + 'a';  // convert into ASCII, A = 65, a = '97'
         plainText[textCounter] = (char)ciph;
         keyCounter++;
-        keyCounter = (keyCounter > 22) ? 0: keyCounter;
+        keyCounter = (keyCounter > strlen(CIPHER_KEY_2)-1) ? 0: keyCounter;
     }
     plainText[textCounter] = '\0';
     return;
