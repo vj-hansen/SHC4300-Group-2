@@ -19,6 +19,7 @@
 
 #define MAX_TEXT_SIZE 200
 #define CIPHER_KEY_2 "jeanjacquesrousseau"
+#define cipher_key_len 23
 
 /***************************************************************************
 * Return the encrypted text generated with the help of the key
@@ -26,7 +27,7 @@
 * @return   Cipher text
 ****************************************************************************/
 void encode(const char* plainText, char* encryptText) {
-    char key[strlen(CIPHER_KEY_2)] = CIPHER_KEY_2;
+    char key[cipher_key_len] = CIPHER_KEY_2;
     int textCounter, keyCounter = 0;
     for (textCounter = 0; plainText[textCounter] != '\0'; textCounter++) {
         int ciph = ( (25-plainText[textCounter]+key[keyCounter]) % 26)+97; // 'a' = 97
@@ -44,7 +45,7 @@ void encode(const char* plainText, char* encryptText) {
 * @return   Original text
 ****************************************************************************/
 void decode(const char* encryptedText, char* plainText) {
-    char key[strlen(CIPHER_KEY_2)] = CIPHER_KEY_2;
+    char key[cipher_key_len] = CIPHER_KEY_2;
     int textCounter, keyCounter = 0;
     for (textCounter = 0; encryptedText[textCounter] != '\0'; textCounter++) {
         int ciph = ( (25 + key[keyCounter] - encryptedText[textCounter]) % 26)+97;
@@ -65,7 +66,7 @@ int main() {
     char text[MAX_TEXT_SIZE] = {'\0'};
     char convertedText[MAX_TEXT_SIZE] = {'\0'};
     char selection = '\0';
-    
+
     while (1) {
         while (selection != 'e' && selection != 'd' && selection != 'q') {
             printf("\n\t\t****Napoleon Cipher****\nEnter 'e' for encrypt | 'd' for decrypt | 'q' for quit: "); // this prints twice after first selection
@@ -76,7 +77,7 @@ int main() {
             return 0;
         }
         if (selection == 'e') { // - Encode
-            printf("\r\nEnter the plain text:\r\n");
+            printf("\r\nEnter the plain text (no space between words):\r\n");
             scanf("%s", text);
             encode(text, convertedText);
             printf("\r\nThe plain text:\r\n");
