@@ -15,7 +15,8 @@ architecture arch of encode_decode is
 
 -----------------------------------------------
 begin    
-    to_ram_bus <= X"0D" when  from_rx_bus = X"0D"  or from_rx_bus = X"0A" else
+    to_ram_bus <= X"20" when from_rx_bus = X"20" else -- check for space
+        X"0D" when  from_rx_bus = X"0D"  or from_rx_bus = X"0A" else
         std_logic_vector(((25 - unsigned(from_rx_bus) + unsigned(from_key_bus)) mod 26) +97) when (from_enc = '1') else
         std_logic_vector(((25 + unsigned(from_key_bus) - unsigned(from_rx_bus)) mod 26) +97);
 end arch;
