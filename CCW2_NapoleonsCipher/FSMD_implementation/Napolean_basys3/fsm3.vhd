@@ -1,23 +1,3 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 02/24/2020 10:41:14 PM
--- Design Name: 
--- Module Name: fsm2 - arch
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
-----------------------------------------------------------------------------------
-
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
@@ -83,7 +63,7 @@ begin
         when check_for_ascii =>
             ram_message <= '0';
             if (from_rx_done_tick = '1') then
-                if ((from_rx_bus>=X"61" and from_rx_bus<=X"7a") or  from_rx_bus = X"0A" or from_rx_bus = X"0D") then -- go to store_1 if ascii 'a' to 'z'
+                if ((from_rx_bus>=X"61" and from_rx_bus<=X"7a") or  from_rx_bus = X"0A" or from_rx_bus = X"0D" or from_rx_bus = X"20") then -- go to store_1 if ascii 'a' to 'z'
 		            state_next <= store_1;
                 else
                     state_next <= check_for_ascii;    
@@ -154,7 +134,7 @@ begin
 		    ram_message <= '0';
             to_tx_start_tick <= '0';
 		  if (from_tx_done_tick = '1') then                                      
-			     state_next <= init;
+			state_next <= init;
              else
                 state_next <= transmit_cr2;
 		      end if;
