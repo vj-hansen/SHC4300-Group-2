@@ -20,7 +20,7 @@
 
 #define MAX_TEXT_SIZE 200
 #define CIPHER_KEY "victordeivyleilabiplav"
-#define CIPHER_KEY_LEN 23   // should find a better solution for this, cant use strlen() though...
+#define CIPHER_KEY_LEN 23 
 
 /***************************************************************************
 * Return the encrypted text generated with the help of the key
