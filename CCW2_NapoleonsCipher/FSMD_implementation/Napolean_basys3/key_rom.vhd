@@ -1,13 +1,14 @@
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-entity key_rom is
-   port(
-      addr: in std_logic_vector(4 downto 0);
-      data: out std_logic_vector(7 downto 0)
-   );
-end key_rom;
 
+-------------------------------------------------------
+entity key_rom is
+   port(  addr: in std_logic_vector(4 downto 0);
+          data: out std_logic_vector(7 downto 0) );
+end key_rom;
+-------------------------------------------------------
 
 -- victordeivyleilabiplav
 -- 01110110 01101001 01100011 01110100 01101111 01110010 01100100 01100101 01101001 01110110 01111001 01101100 01100101 01101001 01101100 01100001 01100010 01101001 01110000 01101100 01100001 01110110
@@ -53,6 +54,7 @@ architecture arch of key_rom is
      "00000000",   --addr 30  , value 
      "00000000"    --addr 31  , value 
    );
+-------------------------------------------------------
 begin
    data <= HEX2LED_ROM(to_integer(unsigned(addr)));
 end arch;

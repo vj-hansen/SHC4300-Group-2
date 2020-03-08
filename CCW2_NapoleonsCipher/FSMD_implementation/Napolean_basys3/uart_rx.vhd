@@ -5,26 +5,25 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-
+---------------------------------------------------------
 entity uart_rx is
-    generic(    DBIT:      integer:= 8;     -- # data bits
-                SB_TICK:   integer:= 16 );  -- # ticks for stop bits
+   generic (   DBIT     : integer:= 8;     -- # data bits
+               SB_TICK  : integer:= 16 );  -- # ticks for stop bits
   
-    port(   clk, reset:       in std_logic;
-            from_rx:          in std_logic;
-            from_baud_tick:   in std_logic;
-            to_rx_done_tick:  out std_logic;
-            to_rx_bus:        out std_logic_vector(7 downto 0) );
-end uart_rx ;
-
+   port (   clk, reset     : in std_logic;
+            from_rx        : in std_logic;
+            from_baud_tick : in std_logic;
+            to_rx_done_tick: out std_logic;
+            to_rx_bus      : out std_logic_vector(7 downto 0) );
+end uart_rx;
+---------------------------------------------------------
 architecture arch of uart_rx is
    type state_type is (idle, start, data, stop);
    signal state_reg, state_next: state_type;
-   signal s_reg, s_next: unsigned(3 downto 0);
-   signal n_reg, n_next: unsigned(2 downto 0);
-   signal b_reg, b_next: std_logic_vector(7 downto 0);
-
-----------------------------------------------------------------------------------
+   signal s_reg, s_next : unsigned(3 downto 0);
+   signal n_reg, n_next : unsigned(2 downto 0);
+   signal b_reg, b_next : std_logic_vector(7 downto 0);
+---------------------------------------------------------
 begin
    -- FSMD state & data registers
    process(clk, reset) begin
@@ -40,7 +39,7 @@ begin
          b_reg <= b_next;
       end if;
    end process;
-   
+   ---------------------------------------------------------
    -- next-state logic & data path functional routing
    process(state_reg, s_reg, n_reg, b_reg, from_baud_tick, from_rx)
    begin
@@ -50,13 +49,13 @@ begin
       b_next <= b_reg;
       to_rx_done_tick <='0';
       case state_reg is
-    ---------------------------------------
+   ---------------------------------------------------------
          when idle =>
             if (from_rx='0') then -- start bit
                state_next <= start;
                s_next <= (others=>'0');
             end if;
-    ---------------------------------------
+   ---------------------------------------------------------
          when start =>
             if (from_baud_tick = '1') then
                if (s_reg=7) then
@@ -67,7 +66,7 @@ begin
                   s_next <= s_reg + 1;
                end if;
             end if;
-    ---------------------------------------
+   ---------------------------------------------------------
          when data =>
             if (from_baud_tick = '1') then
                if (s_reg=15) then
@@ -82,7 +81,7 @@ begin
                   s_next <= s_reg + 1;
                end if;
             end if;
-    ---------------------------------------
+   ---------------------------------------------------------
          when stop =>
             if (from_baud_tick = '1') then
                if (s_reg=(SB_TICK-1)) then
@@ -94,5 +93,6 @@ begin
             end if;
       end case;
    end process;
+   ---------------------------------------------------------
    to_rx_bus <= b_reg;
 end arch;

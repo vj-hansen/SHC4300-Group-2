@@ -4,7 +4,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 ----------------------------------------------------
 entity FSMDISPANDRAM is
-    generic (    ADDR_WIDTH: integer := 12;
+    generic (   ADDR_WIDTH: integer := 12;
                 DATA_WIDTH: integer := 8 );
         
     port (  clk, reset          : in STD_LOGIC;

@@ -12,7 +12,6 @@ entity baud_rate_generator is
     
     port (  clk, reset : in  STD_LOGIC;
             to_baud_tick : out  STD_LOGIC );
-            --q : out  STD_LOGIC_VECTOR(N-1 downto 0) );
 end baud_rate_generator;
 
 architecture arch of baud_rate_generator is	
@@ -32,6 +31,5 @@ begin
               r_reg + 1; 
     
     -- output logic
-    --q <= std_logic_vector(r_reg);
     to_baud_tick <= '1' when r_reg = (M-1) else '0';	
 end arch;

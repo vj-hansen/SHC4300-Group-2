@@ -1,7 +1,4 @@
 ## This file is a general .xdc for the Basys3 rev B board
-## To use it in a project:
-## - uncomment the lines corresponding to used pins
-## - rename the used ports (in each line, after get_ports) according to the top level signal names in the project
 
 ## Clock signal
 set_property PACKAGE_PIN W5 [get_ports clk]							
@@ -241,37 +238,6 @@ set_property PACKAGE_PIN U18 [get_ports reset]
 
 
 
-##VGA Connector
-#set_property PACKAGE_PIN G19 [get_ports {vgaRed[0]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaRed[0]}]
-#set_property PACKAGE_PIN H19 [get_ports {vgaRed[1]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaRed[1]}]
-#set_property PACKAGE_PIN J19 [get_ports {vgaRed[2]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaRed[2]}]
-#set_property PACKAGE_PIN N19 [get_ports {vgaRed[3]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaRed[3]}]
-#set_property PACKAGE_PIN N18 [get_ports {vgaBlue[0]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaBlue[0]}]
-#set_property PACKAGE_PIN L18 [get_ports {vgaBlue[1]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaBlue[1]}]
-#set_property PACKAGE_PIN K18 [get_ports {vgaBlue[2]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaBlue[2]}]
-#set_property PACKAGE_PIN J18 [get_ports {vgaBlue[3]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaBlue[3]}]
-#set_property PACKAGE_PIN J17 [get_ports {vgaGreen[0]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaGreen[0]}]
-#set_property PACKAGE_PIN H17 [get_ports {vgaGreen[1]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaGreen[1]}]
-#set_property PACKAGE_PIN G17 [get_ports {vgaGreen[2]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaGreen[2]}]
-#set_property PACKAGE_PIN D17 [get_ports {vgaGreen[3]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {vgaGreen[3]}]
-#set_property PACKAGE_PIN P19 [get_ports Hsync]						
-	#set_property IOSTANDARD LVCMOS33 [get_ports Hsync]
-#set_property PACKAGE_PIN R19 [get_ports Vsync]						
-	#set_property IOSTANDARD LVCMOS33 [get_ports Vsync]
-
-
 ##USB-RS232 Interface
 set_property PACKAGE_PIN B18 [get_ports rx]						
 	set_property IOSTANDARD LVCMOS33 [get_ports rx]
@@ -286,19 +252,3 @@ set_property PACKAGE_PIN A18 [get_ports tx]
 #set_property PACKAGE_PIN B17 [get_ports PS2Data]					
 	#set_property IOSTANDARD LVCMOS33 [get_ports PS2Data]	
 	#set_property PULLUP true [get_ports PS2Data]
-
-
-##Quad SPI Flash
-##Note that CCLK_0 cannot be placed in 7 series devices. You can access it using the
-##STARTUPE2 primitive.
-#set_property PACKAGE_PIN D18 [get_ports {QspiDB[0]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {QspiDB[0]}]
-#set_property PACKAGE_PIN D19 [get_ports {QspiDB[1]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {QspiDB[1]}]
-#set_property PACKAGE_PIN G18 [get_ports {QspiDB[2]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {QspiDB[2]}]
-#set_property PACKAGE_PIN F18 [get_ports {QspiDB[3]}]				
-	#set_property IOSTANDARD LVCMOS33 [get_ports {QspiDB[3]}]
-#set_property PACKAGE_PIN K19 [get_ports QspiCSn]					
-	#set_property IOSTANDARD LVCMOS33 [get_ports QspiCSn]
-
