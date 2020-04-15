@@ -8,7 +8,7 @@ Slides from Jose:
 
 ### SDK and HLS:
 
-Merge Sort is a recursive algorithm. Time complexity of Merge Sort is O(nlogn).
+Merge Sort is a recursive algorithm. Time complexity of Merge Sort is `O(n*log(n))`.
 https://en.wikipedia.org/wiki/Merge_sort
 
 
