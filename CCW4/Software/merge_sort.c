@@ -37,13 +37,14 @@ void mergeSort(int* inputNums, int start, int end)
 
 void mergeJoin(int* inputNums, int start,int mid, int end)
 {
-    int tmp[MAX_NUMBERS] = {'\0'};
     int tmp_index = 0;
+    int tmp_max = (end - start);
+    int tmp[MAX_NUMBERS] = {'\0'}; // this can be optimized, instead of MAX_NUMBERS, tmp_max can be used
     int mid_index = mid + 1;
     int start_index = start;
     if(start == end)
         return;
-    while (tmp_index <= end )
+    while (tmp_index <= tmp_max )
     {
 	if(start_index <= mid && mid_index <= end)
 	{
