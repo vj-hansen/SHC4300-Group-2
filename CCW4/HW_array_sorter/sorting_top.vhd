@@ -22,7 +22,7 @@ entity sort_top is
            srtd_data   : out std_logic_vector(data_width-1 downto 0) ); 
 end sort_top;
 -------------------------------------------------
-architecture behavioral of sort_top is
+architecture arch of sort_top is
     component sorting_cell
         generic (data_width : integer := 8);
         
@@ -85,4 +85,4 @@ begin
     end generate sorting_data;
 --------------------------------------
     srtd_data <= data(num_cells-1); -- sorted data is shown in descending order
-end behavioral;
+end arch;
