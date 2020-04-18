@@ -34,13 +34,13 @@ architecture arch of sort_top is
                nxt_full, nxt_push : out boolean );
     end component;
 -------------------------------------------------
-    type data_arr   is array(0 to num_cells-1) of std_logic_vector(data_width-1 downto 0);
-    type full_arr   is array(0 to num_cells-2) of boolean;
-    type push_arr   is array(0 to num_cells-2) of boolean;
+    type data_arr is array(0 to num_cells-1) of std_logic_vector(data_width-1 downto 0);
+    type full_arr is array(0 to num_cells-2) of boolean;
+    type push_arr is array(0 to num_cells-2) of boolean;
 -------------------------------------------------
-    signal data     : data_arr; -- cell data
-    signal full     : full_arr; -- full/occupied cell
-    signal push     : push_arr;
+    signal data : data_arr; -- cell data
+    signal full : full_arr; -- full/occupied cell
+    signal push : push_arr;
 -------------------------------------------------
 begin
     sorting_data : for n in 0 to num_cells-1 generate
