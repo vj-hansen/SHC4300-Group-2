@@ -10,8 +10,8 @@
 
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 -- Based on:
--- https://hackaday.com/2016/01/20/a-linear-time-sorting-algorithm-for-fpgas/
--- https://github.com/Poofjunior/fpga_fast_serial_sort
+    -- https://hackaday.com/2016/01/20/a-linear-time-sorting-algorithm-for-fpgas/
+    -- Sorting Units for FPGA-Based Embedded Systems, R. Marcelino, H. Neto, and J. M. P. Cardoso, 2008
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 -------------------------------------------------
 library ieee;
