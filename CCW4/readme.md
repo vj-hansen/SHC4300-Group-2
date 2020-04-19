@@ -14,3 +14,6 @@ https://en.wikipedia.org/wiki/Merge_sort
 
 
 ### Hardware
+`O(n)`
+
+https://hackaday.com/2016/01/20/a-linear-time-sorting-algorithm-for-fpgas/
