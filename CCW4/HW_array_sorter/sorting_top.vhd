@@ -1,12 +1,18 @@
--------------------------------------------------
+-- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 -- Group 2: V. Hansen, B. Karna, D. Kazokas, L. Mozaffari
--- Sort Top
+-- Array Sorter Top-module
+-- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
--- store data(num_cells-1) in an array to get sorted data.
+-- ***********
+-- possible to read unsorted array from .txt-file?
+-- and store the sorted array in a new .txt-file?
+-- ***********
 
+-- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 -- Based on:
 -- https://hackaday.com/2016/01/20/a-linear-time-sorting-algorithm-for-fpgas/
 -- https://github.com/Poofjunior/fpga_fast_serial_sort
+-- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 -------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
