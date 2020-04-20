@@ -5,10 +5,9 @@
     -- https://hackaday.com/2016/01/20/a-linear-time-sorting-algorithm-for-fpgas/
     -- Sorting Units for FPGA-Based Embedded Systems, R. Marcelino, H. Neto, and J. M. P. Cardoso, 2008
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-
--- make into FSMD
-
 --------------------------------------
+-- Each cell needs to keep track of its own state, empty or occupied.
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
@@ -26,6 +25,8 @@ entity sorting_cell is
 end sorting_cell;
 --------------------------------------
 architecture arch of sorting_cell is
+    type state_type is (empty_state, full_state); 
+    signal state_next, state_reg : state_type;
     signal full        : boolean := false;
     signal crrnt_data  : std_logic_vector(data_width-1 downto 0) := (others=>'0');
     signal accept_data : boolean := false;
@@ -36,30 +37,11 @@ begin
     nxt_full    <= true when (full) else false;
     nxt_push    <= true when (accept_data AND full) else false;
 --------------------------------------
-    process (clk) begin
+    process (clk, rst) begin
         if rising_edge(clk) then
+            state_reg <= state_next;
             if (rst = '1') then
-                full <= false;
-            else
-                case full is
-                    when false =>
-                        if (pre_push) then
-                            full <= true;
-                        elsif (NOT pre_push AND pre_full) then
-                            full <= true;
-                        else
-                            full <= false;
-                        end if;
-                    when true =>
-                        full <= true;
-                end case;
-            end if;
-        end if;
-    end process;
---------------------------------------
-    process (clk) begin
-        if rising_edge(clk) then
-            if (rst = '1') then
+                state_reg <= empty_state;
                 crrnt_data <= (others=>'0');
             else
                 if (pre_push) then
@@ -71,5 +53,22 @@ begin
                 end if;
             end if;
         end if;
+    end process;
+--------------------------------------
+    process(state_reg, pre_push, pre_full) begin
+        state_next <= state_reg;
+        case state_reg is
+            when empty_state =>
+                full <= false;       
+                if (pre_push) then
+                    state_next <= full_state;
+                elsif (NOT pre_push AND pre_full) then
+                    state_next <= full_state;     
+                else
+                    state_next <= empty_state;
+                end if;      
+            when full_state => 
+                full <= true; 
+        end case;
     end process;
 end arch;
