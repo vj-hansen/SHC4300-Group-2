@@ -16,6 +16,7 @@ architecture arch of sort_top_tb is
         port ( clk, rst    : in std_logic;
                to_clr_data_in : in std_logic;
                to_inc_data_in : in std_logic;
+               ram_wr : in std_logic;
               -- unsrtd_data : in std_logic_vector(data_width-1 downto 0);
                srtd_data   : out std_logic_vector(data_width-1 downto 0));
     end component;
@@ -26,12 +27,14 @@ architecture arch of sort_top_tb is
    -- signal unsrtd_data  : std_logic_vector(data_width-1 downto 0) := (others => '0');
     signal srtd_data    : std_logic_vector(data_width-1 downto 0) := (others => '0');
     signal to_clr_data_in, to_inc_data_in : std_logic;
+    signal ram_wr : std_logic;
 ----------------------------------
 begin
     uut : sort_top port map 
             ( clk=>clk, rst=>rst, 
               to_clr_data_in=>to_clr_data_in,
               to_inc_data_in=>to_inc_data_in,
+              ram_wr=>ram_wr,
               --unsrtd_data=>unsrtd_data,
               srtd_data=>srtd_data );
 
@@ -49,7 +52,7 @@ begin
         wait for clk_period;
         rst <= '0';
         to_clr_data_in <='0';
-        to_inc_data_in <='1'; -- 0
+        to_inc_data_in <='1'; -- 0  
         wait for clk_period;
         to_inc_data_in <='1'; -- 1
         wait for clk_period;
@@ -65,7 +68,7 @@ begin
         wait for clk_period;
         to_inc_data_in <='1'; -- 7
         wait for clk_period;
-         to_inc_data_in <='1'; -- 8
+        to_inc_data_in <='1'; -- 8
         wait for clk_period;
         to_inc_data_in <='1'; -- 9
         wait for clk_period;
@@ -81,6 +84,16 @@ begin
         wait for clk_period;
         to_inc_data_in <='1';
         wait for clk_period; 
+        wait for clk_period; 
+        wait for clk_period; 
+        ram_wr <= '1';
+        wait for clk_period;
+        ram_wr <= '1';
+        wait for clk_period;
+        ram_wr <= '1';
+        wait for clk_period;
+        ram_wr <= '1';
+        wait for clk_period;
         wait;
     end process;
 end;
