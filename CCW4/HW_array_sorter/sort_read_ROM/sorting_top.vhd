@@ -21,12 +21,14 @@ use ieee.std_logic_arith.all;
 use ieee.std_logic_unsigned.all;
 -------------------------------------------------
 entity sort_top is
-    generic ( num_cells  : integer := 10;
+    generic ( num_cells  : integer := 15;
               data_width : integer := 8 );
     
     port ( clk, rst    : in std_logic;
+           to_clr_data_in : in std_logic;
+           to_inc_data_in : in std_logic;
            --unsrtd_data : in std_logic_vector(data_width-1 downto 0);
-           srtd_data   : out std_logic_vector(data_width-1 downto 0) ); 
+           srtd_data   : out std_logic_vector(data_width-1 downto 0) );
 end sort_top;
 -------------------------------------------------
 architecture arch of sort_top is
@@ -38,9 +40,7 @@ architecture arch of sort_top is
                pre_data           : in std_logic_vector(data_width-1 downto 0);
                pre_full, pre_push : in boolean;
                nxt_data           : out std_logic_vector(data_width-1 downto 0);
-               nxt_full, nxt_push : out boolean;
-               to_clr_data_in     : out std_logic;
-               to_inc_data_in     : out std_logic );
+               nxt_full, nxt_push : out boolean );
     end component;
 -------------------------------------------------
     type data_arr is array(0 to num_cells-1) of std_logic_vector(data_width-1 downto 0);
@@ -52,9 +52,10 @@ architecture arch of sort_top is
     signal push : push_arr;
 
       -- ROM signals
-    signal clr_data_in   : std_logic;
-    signal inc_data_in   : std_logic;
+    signal clr_data_in : std_logic;
+    signal inc_data_in : std_logic;
     
+    -- Encoder and decoder signals
     signal data_in_bus      : std_logic_vector(7 downto 0);
     signal unsorted_in_bus  : std_logic_vector(7 downto 0);
     signal ram_bus          : std_logic_vector(7 downto 0);
@@ -63,10 +64,10 @@ architecture arch of sort_top is
     signal ram_abus         : STD_LOGIC_VECTOR (11 downto 0);
 -------------------------------------------------
 begin
-  Key_Block : entity work.read_ROM(arch)
+    ROM : entity work.read_ROM(arch)
         port map (  clk => clk,
-                    from_clr_data_in => clr_data_in, 
-                    from_inc_data_in => inc_data_in,
+                    from_clr_data_in => to_clr_data_in, 
+                    from_inc_data_in => to_inc_data_in,
                     to_data_in_bus   => unsorted_in_bus); 
 ----------------------------------------------------------
     sorting_data : for n in 0 to num_cells-1 generate
@@ -75,12 +76,10 @@ begin
         first_cell : if n = 0 generate
             begin first_cell : sorting_cell 
                 port map ( clk=>clk, rst=>rst, 
-                           unsrtd_data=>unsorted_in_bus,
+                           unsrtd_data=>unsorted_in_bus ,
                            pre_data=>(others=>'0'),
                            pre_full=>true,
                            pre_push=>false,
-                           to_clr_data_in=>clr_data_in,
-                           to_inc_data_in=>inc_data_in,
                            nxt_data=>data(n),
                            nxt_full=>full(n),
                            nxt_push=>push(n) );
@@ -95,8 +94,6 @@ begin
                            pre_data=>data(n-1),
                            pre_full=>full(n-1),
                            pre_push=>push(n-1),
-                           to_clr_data_in=>clr_data_in,
-                           to_inc_data_in=>inc_data_in,
                            nxt_data=>data(n) );
         end generate last_cell;
 --------------------------------------
@@ -110,8 +107,6 @@ begin
                            pre_data=>data(n-1),
                            pre_full=>full(n-1),
                            pre_push=>push(n-1),
-                           to_clr_data_in=>clr_data_in,
-                           to_inc_data_in=>inc_data_in,
                            nxt_data=>data(n),
                            nxt_full=>full(n),
                            nxt_push=>push(n) );
