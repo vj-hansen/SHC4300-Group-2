@@ -21,9 +21,9 @@ entity sorting_cell is
            pre_data           : in std_logic_vector(data_width-1 downto 0);
            pre_full, pre_push : in boolean; 
            nxt_data           : out std_logic_vector(data_width-1 downto 0);
-           nxt_full, nxt_push : out boolean;
-           to_clr_data_in     : out std_logic;
-           to_inc_data_in     : out std_logic );
+           nxt_full, nxt_push : out boolean );
+           --to_clr_data_in     : out std_logic;
+           --to_inc_data_in     : out std_logic );
 end sorting_cell;
 --------------------------------------
 architecture arch of sorting_cell is
@@ -46,10 +46,9 @@ begin
             if (rst = '1') then
                 state_reg <= empty_state;
                 crrnt_data <= (others=>'0');
-                to_clr_data_in <= '1';
-                to_inc_data_in <= '0';  
+              --  to_clr_data_in <= '1';
+            --    to_inc_data_in <= '0';  
             else
-                to_inc_data_in <= '1';
                 if (pre_push) then
                     crrnt_data <= pre_data;
                 elsif (accept_data AND NOT pre_push AND full) then
@@ -65,7 +64,8 @@ begin
         state_next <= state_reg;
         case state_reg is
             when empty_state =>
-                full <= false;       
+                full <= false;
+            --    to_inc_data_in <= '1';      -- increment ROM 
                 if (pre_push) then
                     state_next <= full_state;
                 elsif (NOT pre_push AND pre_full) then
