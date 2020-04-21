@@ -14,7 +14,6 @@
     -- Sorting Units for FPGA-Based Embedded Systems, R. Marcelino, H. Neto, and J. M. P. Cardoso, 2008
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 -------------------------------------------------
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
@@ -24,11 +23,11 @@ entity sort_top is
     generic ( num_cells  : integer := 15;
               data_width : integer := 8 );
     
-    port ( clk, rst    : in std_logic;
-           to_clr_data_in : in std_logic;
-           to_inc_data_in : in std_logic;
-           --unsrtd_data : in std_logic_vector(data_width-1 downto 0);
-           srtd_data   : out std_logic_vector(data_width-1 downto 0) );
+    port ( clk, rst       : in std_logic;
+           ram_wr         : in std_logic;
+           to_clr_data_in : in std_logic; -- should be in an FSM
+           to_inc_data_in : in std_logic; -- should be in an FSM
+           srtd_data      : out std_logic_vector(data_width-1 downto 0) );
 end sort_top;
 -------------------------------------------------
 architecture arch of sort_top is
@@ -55,20 +54,26 @@ architecture arch of sort_top is
     signal clr_data_in : std_logic;
     signal inc_data_in : std_logic;
     
-    -- Encoder and decoder signals
     signal data_in_bus      : std_logic_vector(7 downto 0);
     signal unsorted_in_bus  : std_logic_vector(7 downto 0);
     signal ram_bus          : std_logic_vector(7 downto 0);
     signal ram_input_bus    : std_logic_vector(7 downto 0);
-    signal ram_wr           : STD_LOGIC;
+   -- signal ram_wr           : STD_LOGIC;
     signal ram_abus         : STD_LOGIC_VECTOR (11 downto 0);
 -------------------------------------------------
 begin
     ROM : entity work.read_ROM(arch)
-        port map (  clk => clk,
-                    from_clr_data_in => to_clr_data_in, 
-                    from_inc_data_in => to_inc_data_in,
-                    to_data_in_bus   => unsorted_in_bus); 
+        port map (  clk=>clk,
+                    from_clr_data_in=>to_clr_data_in, 
+                    from_inc_data_in=>to_inc_data_in,
+                    to_data_in_bus=>unsorted_in_bus); 
+----------------------------------------------------------
+    RAM : entity work.RAM(arch)
+        port map (  clk=>clk,
+                    from_wr=>ram_wr,
+                    from_abus=>ram_abus,
+                    from_ram_bus=>ram_input_bus, -- data in
+                    ram_out=>ram_bus );  -- data out
 ----------------------------------------------------------
     sorting_data : for n in 0 to num_cells-1 generate
         -- First cell:
@@ -76,7 +81,7 @@ begin
         first_cell : if n = 0 generate
             begin first_cell : sorting_cell 
                 port map ( clk=>clk, rst=>rst, 
-                           unsrtd_data=>unsorted_in_bus ,
+                           unsrtd_data=>unsorted_in_bus,
                            pre_data=>(others=>'0'),
                            pre_full=>true,
                            pre_push=>false,
@@ -113,5 +118,7 @@ begin
             end generate regular_cells;
     end generate sorting_data;
 --------------------------------------
-    srtd_data <= data(num_cells-1); -- sorted data is shown in descending order
+    --srtd_data <= data(num_cells-1); -- sorted data is shown in descending order
+    ram_input_bus <= data(num_cells-1);
+    srtd_data <= ram_input_bus;
 end arch;
