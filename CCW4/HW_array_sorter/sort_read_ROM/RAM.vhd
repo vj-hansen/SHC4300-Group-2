@@ -14,7 +14,7 @@ entity RAM is
             from_wr       : in std_logic; -- write enable
             from_abus     : in std_logic_vector(ADDR_WIDTH-1 downto 0);
             from_ram_bus  : in std_logic_vector(DATA_WIDTH-1 downto 0);     -- data in
-            ram_out     : out std_logic_vector(DATA_WIDTH-1 downto 0) );  -- data out
+            ram_out       : out std_logic_vector(DATA_WIDTH-1 downto 0) );  -- data out
 end RAM;
 ----------------------------------------------------------------------------------
 architecture arch of RAM is
@@ -29,5 +29,5 @@ begin
       end if;
     end if;
   end process;
-  to_tx_bus <= ram_space(to_integer(unsigned(from_abus))); -- read
+  ram_out <= ram_space(to_integer(unsigned(from_abus))); -- read
 end arch;
