@@ -2,16 +2,6 @@
         Group 2: Biplav, Deivy, Leila, Victor
 
 * @file    merge_sort_iterative.c 
-*
-* This file contains the implementation of the Napoleon Cipher.
-*
-* Usage:
-*     0) Start Xilinx SDK. Connect Zybo to computer via USB.
-*     1) Go to Xilinx > Program FPGA > Program
-*     2) Open SDK Terminal
-*     2.1) Press '+' > Select COM-port > Keep default values under 'Advanced Settings' > ok
-*     3) Right-click on 'Napoleon_Cipher'-folder > Run as > 1 Launch on Hardware (system debugger)
-*     4) Go to SDK Terminal > encode/decode your message
 ****************************************************************************/
 
 #include "merge-sort.h"
