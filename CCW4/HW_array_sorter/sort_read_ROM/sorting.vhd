@@ -31,7 +31,7 @@ architecture arch of sorting_cell is
     signal crrnt_data  : std_logic_vector(data_width-1 downto 0) := (others=>'0');
     signal accept_data : boolean := false;
 --------------------------------------
-begin --- - - - - - - -- <
+begin
     accept_data <= (unsorted_data > crrnt_data) OR NOT full;
     nxt_data    <= crrnt_data;
     nxt_full    <= true when (full) else false;
