@@ -17,7 +17,7 @@ entity sorting_cell is
     generic ( data_width : integer := 8 );
     
     port ( clk, rst           : in std_logic;
-           unsrtd_data        : in std_logic_vector(data_width-1 downto 0);
+           unsorted_data      : in std_logic_vector(data_width-1 downto 0);
            pre_data           : in std_logic_vector(data_width-1 downto 0);
            pre_full, pre_push : in boolean; 
            nxt_data           : out std_logic_vector(data_width-1 downto 0);
@@ -31,8 +31,8 @@ architecture arch of sorting_cell is
     signal crrnt_data  : std_logic_vector(data_width-1 downto 0) := (others=>'0');
     signal accept_data : boolean := false;
 --------------------------------------
-begin
-    accept_data <= (unsrtd_data < crrnt_data) OR NOT full;
+begin --- - - - - - - -- <
+    accept_data <= (unsorted_data > crrnt_data) OR NOT full;
     nxt_data    <= crrnt_data;
     nxt_full    <= true when (full) else false;
     nxt_push    <= true when (accept_data AND full) else false;
@@ -47,9 +47,10 @@ begin
                 if (pre_push) then
                     crrnt_data <= pre_data;
                 elsif (accept_data AND NOT pre_push AND full) then
-                    crrnt_data <= unsrtd_data;
+                    crrnt_data <= unsorted_data;
+                     -- Store the smallest element in the first empty cell
                 elsif (NOT pre_push AND NOT full AND pre_full) then
-                    crrnt_data <= unsrtd_data;
+                    crrnt_data <= unsorted_data;
                 end if;
             end if;
         end if;
