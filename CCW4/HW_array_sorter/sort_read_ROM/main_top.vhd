@@ -16,9 +16,9 @@ use ieee.std_logic_unsigned.all;
 -------------------------------------------------
 entity main_top is    
     port ( clk, rst       : in std_logic;
-           to_clr_data_in : in std_logic;
-           to_inc_data_in : in std_logic;
-           ram_wr         : in std_logic );
+           to_clr_data_in : in std_logic; -- out
+           to_inc_data_in : in std_logic; -- out
+           ram_wr         : in std_logic ); -- out
 end main_top;
 -------------------------------------------------
 architecture arch of main_top is
