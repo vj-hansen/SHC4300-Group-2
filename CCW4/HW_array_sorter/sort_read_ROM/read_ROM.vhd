@@ -33,5 +33,5 @@ begin
     end process;
 ------------------------------------------
     to_data_in_bus <= rom_data;
-    rom_addr    <= std_logic_vector(rom_addr_cnt);
+    rom_addr <= std_logic_vector(rom_addr_cnt);
 end arch;
