@@ -97,4 +97,6 @@ in `sorted_defined.dat` file with `sorted_result.dat` file to check if the solut
     - Press **Run Block Automation** and press **OK**
     - Press **Run Connection Automation** and press **OK**
 
-### At this point you should have a HLS IP block in a new Vivado project
+#### At this point you should have a HLS IP block in a new Vivado project
+
+#### Future work: Communication between Vivado SDK and generated HLS IP block
