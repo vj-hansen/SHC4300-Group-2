@@ -1,10 +1,16 @@
 ## CCW4 Sorting Algorithm Implementation in Vivado HLS
 #### Group 2: Biplav, Deivy, Leila, Victor
  
+### Introduction
+In this project our group has implemented a C code in Vivado HLS in order to generate an IP block that can be used in Vivado environment.
+The HLS solution includes numerous files. Header file `sort_merge_8bit_head.h` includes definitions needed for the functions defined in `sort_merge_8bit_function.c` file.
+Further a test bench file `sort_merge_8bit_tb.c` is used to test the solution by reading the unsorted array from `unsorted.dat` file, 
+storing the sorted array in `sorted_result.dat` file and finally letting the system to compare pre-sorted array as defined 
+in `sorted_defined.dat` file with `sorted_result.dat` file to check if the solution sorts the array as expected.
  
-### Follow steps bellow to recreate this project for Zybo board
-
 ---
+### Follow the steps bellow to recreate this project for Zybo board
+
 #### Requirements
 
 - Zybo Board files **must** be placed in appropriate directory before proceeding
