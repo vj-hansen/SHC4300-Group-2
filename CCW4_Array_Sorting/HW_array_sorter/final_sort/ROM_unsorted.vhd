@@ -15,9 +15,6 @@ architecture arch of unsort_rom is
    type rom_type is array (0 to (2**ADDR_WIDTH) - 1)
         of std_logic_vector(DATA_WIDTH-1 downto 0);
    
-   -- ROM definition
-   -- Generate numbers between 0-255:
-   --   https://www.random.org/bytes/
    constant unsorted_ROM: rom_type := ( -- 2^6-by-8
     "00000110", "11101100", "01100101", "11100101", "00110001", 
     "10011011", "00000001", "11010101", "00111100", "11111001", 

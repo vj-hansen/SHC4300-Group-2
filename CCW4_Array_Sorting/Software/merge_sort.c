@@ -1,5 +1,5 @@
 /****************************************************************************
-		Group 2: Biplav, Deivy, Leila, Victor
+        Group 2: Biplav, Deivy, Leila, Victor
 * @file     merge_sort.c
 *
 * This file contains the implementation of the Merge Sort comparison-based sorting algorithm.
@@ -14,14 +14,14 @@
 void mergeSort(int *inputNums, int start, int end);
 void mergeJoin(int *inputNums, int start, int mid, int end);
 
-void mergeSort(int* inputNums, int start, int end) {
+void mergeSort(int *inputNums, int start, int end) {
     //printf("mergeSort %d %d \n",start,end); 
     if(start == end)
         return;
     int mid = (end + start ) / 2;
-    mergeSort(inputNums,start,mid);
-    mergeSort(inputNums,mid+1,end);
-    mergeJoin(inputNums,start,mid,end);
+    mergeSort(inputNums, start, mid);
+    mergeSort(inputNums, mid+1, end);
+    mergeJoin(inputNums, start, mid, end);
 }
 
 void mergeJoin(int *inputNums, int start, int mid, int end) {
@@ -33,33 +33,31 @@ void mergeJoin(int *inputNums, int start, int mid, int end) {
     if(start == end)
         return;
     while (tmp_index <= tmp_max) {
-	if(start_index <= mid && mid_index <= end) {
-		if(inputNums[start_index] < inputNums[mid_index]) {
-			tmp[tmp_index++] = inputNums[start_index++];  
-		}
-		else {
-			tmp[tmp_index++] = inputNums[mid_index++];
-		}
-	}
-	else {
-		if(mid_index > end) {
-			tmp[tmp_index++] = inputNums[start_index++];  
-		}
-		else {
-			tmp[tmp_index++] = inputNums[mid_index++];
-		}
-	}
+        if(start_index <= mid && mid_index <= end) {
+            if(inputNums[start_index] < inputNums[mid_index]) {
+                tmp[tmp_index++] = inputNums[start_index++];  
+            }
+            else {
+                tmp[tmp_index++] = inputNums[mid_index++];
+            }
+        }
+        else {
+            if(mid_index > end) {
+                tmp[tmp_index++] = inputNums[start_index++];  
+            }
+            else {
+                tmp[tmp_index++] = inputNums[mid_index++];
+            }
+        }
     }
     tmp_index = 0;
     for(start_index = start; start_index <= end; start_index++) {
         inputNums[start_index] = tmp[tmp_index++];
-	//printf("merge join %d[%d] ",inputNums[start_index],start_index); 
+    //printf("merge join %d[%d] ",inputNums[start_index],start_index); 
     }
 }
 
-/***************************************************************************
-* Main function
-****************************************************************************/
+/* Main function */
 int main() {
     int numbers[MAX_NUMBERS] = {'\0'};
     int totalNum = 0;
@@ -67,8 +65,7 @@ int main() {
     while (1) {
         char temp='\0';   // temp is to capture return (enter) keyboard entry
         while (1) {
-	    totalNum = 0;
-		// wouldn't it be better to read them from a .txt-file?
+            totalNum = 0;
             printf("\n****Merge Sort****\nEnter number of integer for sort (2-200), enter 0 for quit: "); 
             scanf("%d%c", &totalNum, &temp); 
             //scanf("%d", &totalNum); 

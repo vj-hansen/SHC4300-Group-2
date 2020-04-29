@@ -1,13 +1,10 @@
 -- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 -- Group 2: V. Hansen, B. Karna, D. Kazokas, L. Mozaffari
 -- Array Sorter Top-module
--- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
--- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 -- Based on:
     -- https://hackaday.com/2016/01/20/a-linear-time-sorting-algorithm-for-fpgas/
     -- Sorting Units for FPGA-Based Embedded Systems, R. Marcelino, H. Neto, and J. M. P. Cardoso, 2008
--- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 -------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
@@ -45,10 +42,8 @@ architecture arch of sort_top is
     signal clr_data_in, inc_data_in : std_logic; 
 -------------------------------------------------
 begin
-----------------------------------------------------------
     sorting_data : for n in 0 to num_cells-1 generate
-        -- First cell:
-        -- pre_data doesn't exist (since this is the first cell)
+        -- First cell
         first_cell : if n = 0 generate
             begin first_cell : sorting_cell 
                 port map ( clk=>clk, rst=>rst, 
@@ -60,9 +55,8 @@ begin
                            nxt_full=>full(n),
                            nxt_push=>push(n) );
         end generate first_cell;
---------------------------------------
-        -- Last cell:
-        -- Don't connect the `nxt_data` since we're at the last cell
+-------------------------------------------------
+        -- Last cell
         last_cell : if n = num_cells-1 generate
             begin last_cell : sorting_cell 
                 port map ( clk=>clk, rst=>rst, 
@@ -70,13 +64,11 @@ begin
                            pre_data=>data(n-1),
                            pre_full=>full(n-1),
                            pre_push=>push(n-1),
-                           nxt_data=>data(n),
-                           nxt_full => full(n) );
+                           nxt_data=>data(n), -- see this
+                           nxt_full=>full(n) );
         end generate last_cell;
---------------------------------------
-        -- Regular cells ( i.e. the cells between the first and last cell):
-        -- Connect `pre_` to the previous cell's `nxt_` values
-        -- Connect `nxt_` to the next cell's `pre_` values.
+-------------------------------------------------
+        -- Regular cells ( i.e. the cells between the first and last cell)
         regular_cells : if (n/=0) AND (n/=num_cells-1) generate
             begin regular_cells : sorting_cell 
                 port map ( clk=>clk, rst=>rst, 
@@ -89,5 +81,6 @@ begin
                            nxt_push=>push(n) );
             end generate regular_cells;
     end generate sorting_data;
+-------------------------------------------------
     sorted_data <= data(num_cells-1);
 end arch;

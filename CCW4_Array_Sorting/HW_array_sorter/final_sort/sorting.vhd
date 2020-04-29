@@ -1,12 +1,12 @@
 -- Group 2: V. Hansen, B. Karna, D. Kazokas, L. Mozaffari
 -- Sorting Cell
--- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
 -- Based on:
     -- https://hackaday.com/2016/01/20/a-linear-time-sorting-algorithm-for-fpgas/
     -- Sorting Units for FPGA-Based Embedded Systems, R. Marcelino, H. Neto, and J. M. P. Cardoso, 2008
--- * * * * * * * * * * * * * * * * * * * * * * * * * * * *
---------------------------------------
+
 -- Each cell needs to keep track of its own state, empty or occupied.
+------------------------------------------------------
 
 library IEEE;
 use IEEE.std_logic_1164.all;
@@ -48,7 +48,6 @@ begin
                     crrnt_data <= pre_data;
                 elsif (accept_data AND NOT pre_push AND full) then
                     crrnt_data <= unsorted_data;
-                     -- Store the smallest element in the first empty cell
                 elsif (NOT pre_push AND NOT full AND pre_full) then
                     crrnt_data <= unsorted_data;
                 end if;
