@@ -5,6 +5,8 @@ Merge Sort algorithm is implemented as below
 * Divide the unsorted list into n sublists, each containing one element.
 * Repeatedly merge sublists to produce new sorted sublists until there is only one sublist remaining. This will be the sorted list.
 
+![Repo List](Merge_sort_algorithm_diagram.png)
+
 It uses divide and conquer methodologies to sort and array. For n elements in a list, the algorithm's average case and worst case performance is in order of O(n log (n) ). There is a overhead of space which can be in order of O(n) in worst case, depending on way of implementation. There are many variant of implementation. The variant can be combination of below listed technique
 * Top down
 * Bottom up
