@@ -1,8 +1,10 @@
-## CCW4 - Array sorting
+## CCW4 Sorting Algorithm Implementation in Vivado environment
 
 *Group 2: Biplav, Deivy, Leila & Victor*
 
-#### In this assignment our group had to come up with 3 different implementations for array sorting task.
+### Summary
+
+In this assignment our group had to come up with 3 different implementations for array sorting task.
 
 One of the solutions have been implemented as hardware in **Vivado** and is explained in ***HW_array_sorter*** folder.
 
