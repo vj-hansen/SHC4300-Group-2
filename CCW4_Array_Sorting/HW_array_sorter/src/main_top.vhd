@@ -4,7 +4,6 @@
 
 -- Based on:
     -- https://hackaday.com/2016/01/20/a-linear-time-sorting-algorithm-for-fpgas/
-    -- Sorting Units for FPGA-Based Embedded Systems, R. Marcelino, H. Neto, and J. M. P. Cardoso, 2008
 -------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
@@ -34,7 +33,7 @@ begin
 -------------------------------------------------
     memory_ctrl: entity work.memory_ctrl(arch)
         port map (  clk => clk,
-                    rst=>rst,
+                    rst => rst,
                     sort_done => sort_done,
                     to_clr_ROM => clr_ROM,
                     to_inc_ROM => inc_ROM );

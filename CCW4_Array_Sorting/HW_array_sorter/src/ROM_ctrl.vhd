@@ -18,7 +18,7 @@ begin
             if (sort_done = '1') then
                 to_inc_ROM <= '0';
             else 
-                to_inc_ROM <= '1';
+                to_inc_ROM <= '1'; -- increment ROM
             end if;
         end if;
     end process;

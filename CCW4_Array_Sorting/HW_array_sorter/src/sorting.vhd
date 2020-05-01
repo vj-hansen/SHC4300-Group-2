@@ -3,9 +3,6 @@
 
 -- Based on:
     -- https://hackaday.com/2016/01/20/a-linear-time-sorting-algorithm-for-fpgas/
-    -- Sorting Units for FPGA-Based Embedded Systems, R. Marcelino, H. Neto, and J. M. P. Cardoso, 2008
-
--- Each cell needs to keep track of its own state, empty or occupied.
 ------------------------------------------------------
 
 library IEEE;
@@ -25,7 +22,9 @@ entity sorting_cell is
 end sorting_cell;
 --------------------------------------
 architecture arch of sorting_cell is
+-- Each cell needs to keep track of its own state (empty or full)
     type state_type is (empty_state, full_state); 
+    
     signal state_next, state_reg : state_type;
     signal full        : boolean := false;
     signal crrnt_data  : std_logic_vector(data_width-1 downto 0) := (others=>'0');
