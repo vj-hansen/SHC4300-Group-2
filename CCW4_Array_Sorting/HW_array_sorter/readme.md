@@ -12,7 +12,6 @@ Every time we insert a new element, we look at each cell and ask ourselves: “D
 
 #### Schematic
 
-
 <img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SCH1.PNG" alt="drawing" width="850"/>
 
 <img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SCH2.PNG" alt="drawing" width="850"/>
@@ -21,8 +20,7 @@ Every time we insert a new element, we look at each cell and ask ourselves: “D
 
 
 
-First cell:
-pre_data doesn't exist (since this is the first cell)
+First cell: pre_data doesn't exist (since this is the first cell)
 
 Regular cells ( i.e. the cells between the first and last cell):
 Connect `pre_` to the previous cell's `nxt_` values, and connect `nxt_` to the next cell's `pre_` values.
@@ -41,9 +39,7 @@ For the last cell we connect `nxt_data` to the `sorted_data` output.
 <img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/TB4.PNG" alt="drawing" width="850"/>
 
 
-#### utilization
+#### Synthesis report
 <img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SUMMARY.PNG" alt="drawing" width="550"/>
 
-
-#### Power
 <img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/POWER.PNG" alt="drawing" width="550"/>
