@@ -3,7 +3,10 @@ This parallel sorting algorithm is based on:
 https://hackaday.com/2016/01/20/a-linear-time-sorting-algorithm-for-fpgas/
 https://github.com/Poofjunior/fpga_fast_serial_sort
 
+Time complexity for implemented algorithm is `O(n)`.
+
 ----
+
 1.  All cells are empty. We start by inserting a new element. Since all cells are empty, this new element is the smallest we’ve seen so far, so we insert it in the first sorting cell.
 
 <img src="images/linsort1.png" alt="drawing" width="500"/>

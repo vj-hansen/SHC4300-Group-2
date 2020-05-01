@@ -16,19 +16,15 @@ It uses divide and conquer methodology to sort and array. For n elements in a li
 
 The merge sort solution provided here is Top-Down Recursive variant. The solution list can have maximum of 200 elements. The overhead of space is in O(n) ( i.e 200, maximum number of element)
 
+Time complexity of Merge Sort is `O(n*log(n))`.
 Reference:- https://en.wikipedia.org/wiki/Merge_sort
+
+> *Source file is placed in SDK folder*
+
 
 ### HLS:
 
-Top-Down Recursive variant Merge Sort doesnot work for vivado HLS. Its difficult to acheive recursive algorithm in hardware implementation.
-Top-Down Iterative variant Merge Sort written in C is generated into equilvalent hardware block in vivado HLS.
+In this assignment, our group has implemented a C code in Vivado HLS in order to generate an IP block that can be used in Vivado environment but Top-Down Recursive variant Merge Sort does not work for vivado HLS. Its difficult to achieve recursive algorithm in hardware implementation.
+Top-Down Iterative variant Merge Sort written in C is generated into equivalent hardware block in vivado HLS.
 
-Time complexity of Merge Sort is `O(n*log(n))`.
-https://en.wikipedia.org/wiki/Merge_sort
-
-
-
-### Hardware
-`O(n)`
-
-https://hackaday.com/2016/01/20/a-linear-time-sorting-algorithm-for-fpgas/
+> *Source files and implementation guide is described in HLS folder*
