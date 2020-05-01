@@ -1,3 +1,5 @@
+## Hardware based array sorting
+
 This parallel sorting algorithm is based on:
 
 https://hackaday.com/2016/01/20/a-linear-time-sorting-algorithm-for-fpgas/
