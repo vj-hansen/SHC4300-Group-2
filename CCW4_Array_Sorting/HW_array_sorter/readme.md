@@ -22,7 +22,5 @@ Every time we insert a new element, we look at each cell and ask ourselves: “D
         -- pre_data doesn't exist (since this is the first cell)
 
 
-
-![alt text](https://github.com/ "Logo Title Text 1")
-
+![alt text](https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/POWER.PNG?raw=true "power")
 
