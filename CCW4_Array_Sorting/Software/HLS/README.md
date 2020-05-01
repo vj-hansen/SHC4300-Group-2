@@ -2,6 +2,7 @@
 #### Group 2: Biplav, Deivy, Leila, Victor
  
 ### Summary
+---
 
 The HLS solution includes numerous files. Header file `sort_merge_8bit_head.h` includes definitions needed for the functions defined in `sort_merge_8bit_function.c` file.
 Further a test bench file `sort_merge_8bit_tb.c` is used to test the solution by reading the unsorted array from `unsorted.dat` file, 
