@@ -1,6 +1,9 @@
+This parallel sorting algorithm is based on:
+
 https://hackaday.com/2016/01/20/a-linear-time-sorting-algorithm-for-fpgas/
+https://github.com/Poofjunior/fpga_fast_serial_sort
 
-
+----
 1.  All cells are empty. We start by inserting a new element, but we need a place to put it. Since all cells are empty, this new element is the smallest we’ve seen so far, so let’s insert it at the top.
 
 Every time we insert a new element, we look at each cell and ask ourselves: “Does my new data fit here?” Because we’ve agreed beforehand that the contents of our cell array will always be sorted, it turns out that every cell can answer this question independently without knowing the contents of the rest of the cells. All it needs to do is ask for a few bits of information from the cell above it.
