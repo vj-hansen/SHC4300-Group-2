@@ -1,4 +1,4 @@
-## CCW4 Sorting Algorithm Implementation in Vivado environment
+## CCW4 Sorting Algorithm Implementation in Vivado 2019.1 environment
 
 *Group 2: Biplav, Deivy, Leila & Victor*
 
