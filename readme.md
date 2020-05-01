@@ -1,4 +1,4 @@
-## SHC4300 :video_game:
+## SHC4300, USN Kongsberg
 
 *Group 2: Biplav, Deivy, Leila & Victor*
 
