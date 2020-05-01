@@ -6,11 +6,11 @@ https://github.com/Poofjunior/fpga_fast_serial_sort
 ----
 1.  All cells are empty. We start by inserting a new element. Since all cells are empty, this new element is the smallest we’ve seen so far, so we insert it in the first sorting cell.
 
-<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/linsort1.png" alt="drawing" width="850"/>
+<img src="images/linsort1.png" alt="drawing" width="500"/>
 
-<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/linsort2.png" alt="drawing" width="850"/>
+<img src="images/linsort2.png" alt="drawing" width="500"/>
 
-<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/linsort3.png" alt="drawing" width="850"/>
+<img src="images/linsort3.png" alt="drawing" width="500"/>
 
 • If a cell is empty, it will claim the incoming element if the above cell is occupied.
 
@@ -22,11 +22,11 @@ https://github.com/Poofjunior/fpga_fast_serial_sort
 
 #### Schematic
 
-<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SCH1.PNG" alt="drawing" width="850"/>
+<img src="images/SCH1.PNG" alt="drawing" width="850"/>
 
-<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SCH2.PNG" alt="drawing" width="850"/>
+<img src="images/SCH2.PNG" alt="drawing" width="850"/>
 
-<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SCH3.PNG" alt="drawing" width="850"/>
+<img src="images/SCH3.PNG" alt="drawing" width="850"/>
 
 We read the unsigned 8-bit numbers from a ROM.
 
@@ -36,16 +36,16 @@ For the last cell we connect `nxt_data` to the `sorted_data` output.
 
 
 #### Testbench
-<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/TB1.PNG" alt="drawing" width="850"/>
+<img src="images/TB1.PNG" alt="drawing" width="850"/>
 
-<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/TB2.PNG" alt="drawing" width="850"/>
+<img src="images/TB2.PNG" alt="drawing" width="850"/>
 
-<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/TB3.PNG" alt="drawing" width="850"/>
+<img src="images/TB3.PNG" alt="drawing" width="850"/>
 
-<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/TB4.PNG" alt="drawing" width="850"/>
+<img src="images/TB4.PNG" alt="drawing" width="850"/>
 
 
 #### Synthesis report
-<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SUMMARY.PNG" alt="drawing" width="550"/>
+<img src="images/SUMMARY.PNG" alt="drawing" width="550"/>
 
-<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/POWER.PNG" alt="drawing" width="550"/>
+<img src="images/POWER.PNG" alt="drawing" width="550"/>
