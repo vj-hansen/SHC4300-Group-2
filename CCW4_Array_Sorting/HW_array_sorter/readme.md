@@ -22,13 +22,29 @@ Every time we insert a new element, we look at each cell and ask ourselves: “D
         -- pre_data doesn't exist (since this is the first cell)
 
 
-![alt text](https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/POWER.PNG?raw=true "power")
 
-![alt text](https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SCH1.PNG?raw=true "schematic1")
+#### Schematic
 
-![alt text](https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SCH2.PNG?raw=true "schematic2")
+<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SCH1.PNG" alt="drawing" width="450"/>
 
-![alt text](https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SCH3.PNG?raw=true "schematic3")
+<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SCH2.PNG" alt="drawing" width="450"/>
 
-![alt text](https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SUMMARY.PNG?raw=true "utilization")
+<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SCH3.PNG" alt="drawing" width="450"/>
 
+
+#### Testbench
+<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/TB1.PNG" alt="drawing" width="450"/>
+
+<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/TB2.PNG" alt="drawing" width="450"/>
+
+<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/TB3.PNG" alt="drawing" width="450"/>
+
+<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/TB4.PNG" alt="drawing" width="450"/>
+
+
+#### utilization
+<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SUMMARY.PNG" alt="drawing" width="450"/>
+
+
+#### Power
+<img src="https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/POWER.PNG" alt="drawing" width="450"/>
