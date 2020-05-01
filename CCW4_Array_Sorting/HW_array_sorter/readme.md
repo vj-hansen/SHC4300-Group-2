@@ -24,3 +24,11 @@ Every time we insert a new element, we look at each cell and ask ourselves: “D
 
 ![alt text](https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/POWER.PNG?raw=true "power")
 
+![alt text](https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SCH1.PNG?raw=true "schematic1")
+
+![alt text](https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SCH2.PNG?raw=true "schematic2")
+
+![alt text](https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SCH3.PNG?raw=true "schematic3")
+
+![alt text](https://github.com/vjhansen/SHC4300-Group-2/blob/master/CCW4_Array_Sorting/HW_array_sorter/images/SUMMARY.PNG?raw=true "utilization")
+
