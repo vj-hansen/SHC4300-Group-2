@@ -17,6 +17,7 @@ It uses divide and conquer methodology to sort and array. For n elements in a li
 The merge sort solution provided here is Top-Down Recursive variant. The solution list can have maximum of 200 elements. The overhead of space is in O(n) ( i.e 200, maximum number of element)
 
 Time complexity of Merge Sort is `O(n*log(n))`.
+
 Reference:- https://en.wikipedia.org/wiki/Merge_sort
 
 > *Source file is placed in SDK folder*
