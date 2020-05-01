@@ -1,6 +1,7 @@
-## Software based array sorting
+## Software based array sorting in SDK and HLS
 
-### SDK approach
+### SDK
+---
 Merge Sort algorithm is implemented as below
 * Divide the unsorted list into n sublists, each containing one element.
 * Repeatedly merge sublists to produce new sorted sublists until there is only one sublist remaining. This will be the sorted list.
@@ -23,9 +24,9 @@ Reference:- https://en.wikipedia.org/wiki/Merge_sort
 > *Source file is placed in SDK folder*
 
 
-### HLS approach
-
-In this assignment, our group has implemented a C code in Vivado HLS in order to generate an IP block that can be used in Vivado environment but Top-Down Recursive variant Merge Sort does not work for vivado HLS. Its difficult to achieve recursive algorithm in hardware implementation.
+### HLS
+---
+Top-Down Recursive variant Merge Sort does not work for vivado HLS. Its difficult to achieve recursive algorithm in hardware implementation.
 Top-Down Iterative variant Merge Sort written in C is generated into equivalent hardware block in vivado HLS.
 
 > *Source files and implementation guide is described in HLS folder*
