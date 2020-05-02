@@ -6,7 +6,8 @@ This parallel sorting algorithm is based on:
 
 * https://github.com/Poofjunior/fpga_fast_serial_sort
 
-Time complexity for implemented algorithm is `O(n)`.
+
+This solution handles repeating numbers and sorts arrays of unsigned 8-bit data from size 0 up to N, where N is the total number of sorting cells that we’ve synthesize onto an FPGA. Time complexity for the implemented algorithm is `O(n)`.
 
 ----
 
@@ -26,21 +27,25 @@ All cells are empty once the sorting starts. We start by inserting a new element
 
 • If a cell is occupied and accepts a new element (either from the above cell or from the incoming data), it must kick out its current element.
 
+----
 #### Schematic
+
+We read the unsigned 8-bit data (numbers from 0 to 255) from a `2^6-by-8` ROM.
+
+
 
 <img src="images/SCH1.PNG" alt="drawing" width="850"/>
 
 <img src="images/SCH2.PNG" alt="drawing" width="850"/>
+First cell: pre_data doesn't exist since this is the first cell.
 
 <img src="images/SCH3.PNG" alt="drawing" width="850"/>
-
-We read the unsigned 8-bit numbers from a ROM.
-
-First cell: pre_data doesn't exist (since this is the first cell)
 
 For the last cell we connect `nxt_data` to the `sorted_data` output.
 
 
+
+----
 #### Testbench
 <img src="images/TB1.PNG" alt="drawing" width="850"/>
 
@@ -50,7 +55,7 @@ For the last cell we connect `nxt_data` to the `sorted_data` output.
 
 <img src="images/TB4.PNG" alt="drawing" width="850"/>
 
-
+----
 #### Synthesis report
 <img src="images/SUMMARY.PNG" alt="drawing" width="550"/>
 
