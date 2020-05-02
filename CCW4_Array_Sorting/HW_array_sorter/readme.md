@@ -10,7 +10,7 @@ Time complexity for implemented algorithm is `O(n)`.
 
 ----
 
-1.  All cells are empty. We start by inserting a new element. Since all cells are empty, this new element is the smallest we’ve seen so far, so we insert it in the first sorting cell.
+All cells are empty once the sorting starts. We start by inserting a new element, this new element will be the smallest we’ve seen so far, so it will be inserted into the first sorting cell.
 
 <img src="images/linsort1.png" alt="drawing" width="500"/>
 
