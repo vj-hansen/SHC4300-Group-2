@@ -1,7 +1,7 @@
 We use lower-case ASCII, (a=97, z=122). 
 
 
-The key = "Jean-Jacques Rousseau" will be hardcoded in the FPGA, i.e. the user can not change the key, only the message.
+The key = `"Jean-Jacques Rousseau"` will be hardcoded in the FPGA, i.e. the user can not change the key, only the message.
 The message and the ciphertext will be sent through RS232. We need a UART receiver and transmitter. It is possible to encrypt a message into ciphertext, and decrypt the ciphertext into the original message.
 
 
@@ -17,13 +17,12 @@ The message and the ciphertext will be sent through RS232. We need a UART receiv
 | Ciphertext (C):  | w | d | p | i | = | 119 | 100 | 112 | 105 |
 
 
+`'z' - 'a' = 122-97=25`
 
-'z' - 'a' = 122-97=25
 
 
 ### Encryption
-position of C = ((25 - Position of M + position of K) mod 26) + 'a=97' 
-
+```position of C = ((25 - Position of M + position of K) mod 26) + 'a=97'```
 
 Example related to table shown above:
 * ((25-109 + 106) mod 26) + 97 = 119 = 'w'
