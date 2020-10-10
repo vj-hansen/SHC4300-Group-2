@@ -17,12 +17,12 @@ The message and the ciphertext will be sent through RS232. We need a UART receiv
 | Ciphertext (C):  | w | d | p | i | = | 119 | 100 | 112 | 105 |
 
 
-`'z' - 'a' = 122-97=25`
+
 
 
 
 ### Encryption
-```position of C = ((25 - Position of M + position of K) mod 26) + 'a=97'```
+```position of C = ((25 - Position of M + position of K) mod 26) + 'a=97'```, where 25 is obtained by `'z' - 'a' = 122-97 = 25`, and 26 is the number of letters in the alphabet.
 
 Example related to table shown above:
 * ```((25-109 + 106) mod 26) + 97 = 119 = 'w'```
