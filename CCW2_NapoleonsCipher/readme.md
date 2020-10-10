@@ -6,9 +6,9 @@ The message and the ciphertext will be sent through RS232. We need a UART receiv
 
 
 
-* Message: Make every day count
-* Key: Jean Jacqu esR ousse
-* Encryption: wdpi eexyv ars lfxek
+* Message: `Make every day count`
+* Key: `Jean Jacqu esR ousse`
+* Encryption: wdpi eexyv ars lfxek`
 
 
 | Message (M):     | m | a | k | e | = | 109 | 97  | 107 | 101 |
@@ -25,7 +25,7 @@ The message and the ciphertext will be sent through RS232. We need a UART receiv
 ```position of C = ((25 - Position of M + position of K) mod 26) + 'a=97'```
 
 Example related to table shown above:
-* ((25-109 + 106) mod 26) + 97 = 119 = 'w'
+* ```((25-109 + 106) mod 26) + 97 = 119 = 'w'```
 
 ### Decryption
-position of M = ((25 + position of K - position of C) mod 26) + 97
+```position of M = ((25 + position of K - position of C) mod 26) + 97```
