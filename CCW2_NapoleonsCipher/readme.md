@@ -8,7 +8,7 @@ The message and the ciphertext will be sent through RS232. We need a UART receiv
 
 * Message: `Make every day count`
 * Key: `Jean Jacqu esR ousse`
-* Encryption: wdpi eexyv ars lfxek`
+* Encryption: `wdpi eexyv ars lfxek`
 
 
 | Message (M):     | m | a | k | e | = | 109 | 97  | 107 | 101 |
